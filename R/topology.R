@@ -40,7 +40,13 @@ get_glottolog_trees = function(
   }
   
   # Choose appropriate dataset
-  if (glottolog_version == "4.3") {
+  if (glottolog_version == "4.0") {
+    phy <- glottolog_trees_v4.0
+  } else if (glottolog_version == "4.1") {
+    phy <- glottolog_trees_v4.1
+  } else if (glottolog_version == "4.2") {
+    phy <- glottolog_trees_v4.2
+  } else if (glottolog_version == "4.3") {
     phy <- glottolog_trees_v4.3
   } else if (glottolog_version == "4.4") {
     phy <- glottolog_trees_v4.4
@@ -319,9 +325,55 @@ keep_tip = function(phy, label) {
 }
 
 
+#' Keep tips and convert nodes to tips
+#'
+#' Nominate which tips and nodes are to be kept as tips. Others tips are
+#' removed. If any element of \code{label} is both a node label and tip label,
+#' it will be treated as referring to the tip, not the node.
+#'
+#' @param phy A phylo object. The tree to manipulate.
+#' @param label A character vector containing tip and node labels.
+#' @return A phylo object containing the modified tree.
+#' @examples
+#'
+#' library(ape)
+#'
+#' tree <- abridge_labels(get_glottolog_trees("Tangkic"))
+#' plot(tree)
+#' nodelabels(tree$node.label)
+#'
+#' tree2 <- keep_as_tip(tree, c("lard1243", "kang1283", "nyan1300", "gang1267"))
+#' plot(tree2)
+#' nodelabels(tree2$node.label)
+keep_as_tip = function(phy, label) {
+  
+  # Check phy
+  check <- .check_phy(phy)
+  if (!is.na(check$error_msg)) { stop(check$error_msg) }
+  # Note, if needed, this will add missing $node.label, $tip.label, $edge.length
+  phy <- check$phy
+  
+  # Check labels
+  check_result <- .check_labels(phy, label, type = "both")
+  if (!is.na(check_result$error_msg)) {
+    stop(check_result$error_msg)
+  } else if (!is.na(check_result$warning_msg)) {
+    warning(check_result$warning_msg) 
+  }
+  
+  # Call convert_to_tip() for node labels which are not also tip labels
+  node_label <- label %>% setdiff(phy$tip.label)
+  if (length(node_label) > 0) {
+    phy <- phy %>% convert_to_tip(node_label)
+  }
+  # Call keep_tip() 
+  phy %>% keep_tip(label)
+}
+
+
 #' Remove tips
 #'
-#' From a tree, select which tips are to be removed.
+#' From a tree, remove tips identified by their node labels.
 #'
 #' @param phy A phylo object. The tree to manipulate.
 #' @param label A character vector containing tip labels.
@@ -446,7 +498,7 @@ add_tip = function(phy, label, parent_label) {
   }
   if (length(parent_label) != 1) {
     stop(str_c("`parent_label` should be length 1.\n",
-               "You supplied a vector length ", length(parent_label, ".")))
+               "You supplied a vector length ", length(parent_label), "."))
   }
   
   n_tip <- Ntip(phy)
@@ -517,13 +569,32 @@ add_tip = function(phy, label, parent_label) {
 #' nodelabels(tree2$node.label)
 move_tip = function(phy, label, parent_label) {
   
+  # Check labels
+  check_result <- .check_labels(phy, label, type = "tip")
+  if (!is.na(check_result$error_msg)) {
+    stop(check_result$error_msg)
+  } else if (!is.na(check_result$warning_msg)) {
+    warning(check_result$warning_msg) 
+  }
   if (length(label) != 1) {
     stop(str_c("`label` should be length 1.\n",
-               "You supplied a vector length ", length(label, ".")))
+               "You supplied a vector length ", length(label), "."))
+  }
+  
+  # Check parent label
+  check_result <- .check_labels(phy, parent_label, type = "parent")
+  if (!is.na(check_result$error_msg)) {
+    stop(check_result$error_msg)
+  } else if (!is.na(check_result$warning_msg)) {
+    warning(check_result$warning_msg)
+  }
+  if (length(parent_label) != 1) {
+    stop(str_c("`parent_label` should be length 1.\n",
+               "You supplied a vector length ", length(parent_label), "."))
   }
   
   phy %>%
-    relabel_tip(label, "##REMOVE_ME##")
+    relabel_tip(label, "##REMOVE_ME##") %>%
     add_tip(label, parent_label) %>%
     remove_tip("##REMOVE_ME##")
     
@@ -657,7 +728,7 @@ clone_tip = function(
       # Add a tip at the destination
       phy <-
         phy %>%
-        .bind_tip(
+        bind.tip(
           edge.length = 1,
           # Temporary label avoids unexpected behaviour from bind.tip():
           tip.label = str_c("#TEMP#"),
@@ -685,6 +756,146 @@ clone_tip = function(
   
   # Place clones adjacent to one another
   .group_cloned_sisters(phy)
+}
+
+
+#' Convert nodes to tips
+#'
+#' For nodes identified by their label, remove the clade that they dominate and
+#' replace it with a tip of the same name.
+#'
+#' Any labels included in \code{label} which are both node labels and tip labels
+#' are regarded as node label, and that node will be removed and replaced by a
+#' tip.
+#'
+#' Any labels included in \code{label} which are tip labels only are ignored.
+#'
+#' @param phy A phylo object. The tree to manipulate.
+#' @param label A character vector containing node or tip labels.
+#' @param warn A logical, whether to issue warning when \code{label} cantains
+#'   tip labels.
+#' @return A phylo object containing the modified tree.
+#' @examples 
+convert_to_tip = function(phy, label, warn = TRUE) {
+  
+  # Check phy
+  check <- .check_phy(phy)
+  if (!is.na(check$error_msg)) { stop(check$error_msg) }
+  # Note, if needed, this will add missing $node.label, $tip.label, $edge.length
+  phy <- check$phy
+  
+  # Check label
+  check_result <- .check_labels(phy, label, type = "both")
+  if (!is.na(check_result$error_msg)) {
+    stop(check_result$error_msg)
+  } else if (!is.na(check_result$warning_msg)) {
+    warning(check_result$warning_msg)
+  }
+  
+  # Ascertain which elements of label are node labels
+  n_tip <- Ntip(phy)
+  e <- phy$edge
+  node_labels <- intersect(label, phy$node.label)
+  ignored_labels <- setdiff(label, node_labels)
+  nodes <- match(node_labels, phy$node.label) + n_tip
+  ignoreds <- match(ignored_labels, phy$tip.label)
+  
+  # Return error if any nodes targeted for replacement dominate any other
+  # node or tip in label
+  for (nd in nodes) {
+    descendants <- getDescendants(phy, nd)
+    dom_nd <- nodes[nodes %in% descendants]
+    dom_ig <- ignoreds[ignoreds %in% descendants]
+    n_dom_nd <- length(dom_nd)
+    n_dom_ig <- length(dom_ig)
+    if (n_dom_nd > 0) {
+      stop(str_c("It is not possible to convert two nodes to tips if ",
+                 "one of them dominates the other.\n",
+                 "You provided node ", phy$node.label[nd - n_tip],
+                 ", as well as ", phy$node.label[dom_nd[1] - n_tip],
+                 ", which it dominates."
+                 ))
+    }
+    if (n_dom_ig > 0) {
+      stop(str_c("It is not possible to convert a node to a tip and ",
+                 "also preserve a tip that is dominates.\n",
+                 "You provided node ", phy$node.label[nd - n_tip],
+                 ", as well as ", phy$tip.label[dom_ig[1]],
+                 ", which is a tip that it dominates."
+      ))
+    }
+  }
+  
+  # Warn if any labels are not node labels
+  n_ignored <- length(ignored_labels)
+  if (warn & n_ignored > 0) {
+    warning(str_c("Any elements in `label` which are tip labels and ",
+                  "not node labels are ignored.\n", 
+                  "You provided ", n_ignored, " of this kind: ",
+                  str_c(head(ignored_labels, 4), collapse = ", "),
+                  ifelse(n_ignored > 4, "..", ""), "."))
+  }
+  
+  # Warn if any targeted node label is also a tip label in the tree
+  double_labels <- intersect(node_labels, phy$tip.label)
+  n_double <- length(double_labels)
+  if (n_double > 0) {
+    warning(str_c("Requested nodes are converted tips, even if a tip with ",
+                  "the same label is present elsewhere in the tree.\n",
+                  "You provided ", n_double, " label(s) which match both ",
+                  "a node and a tip, in which case the node has been ",
+                  "converted and the tip left unchanged: ",
+                  str_c(head(double_labels, 4), collapse = ", "),
+                  ifelse(n_double > 4, "..", ""), "."))
+  }
+  
+  # Get the parents of the nodes to be converted
+  parents <- e[match(nodes, e[,2]), 1]
+  parent_labels <- phy$node.label[parents - n_tip]
+
+  # "Convert" by adding a tip and removing the node
+  for (i in 1:length(node_labels)) {
+    phy <-
+      phy %>%
+      add_tip(node_labels[i], parent_labels[i]) %>%
+      remove_clade(node_labels[i])
+  }
+  phy
+}
+
+
+#' Remove clades
+#'
+#' From a tree, remove clacdes, identified by the labels of their deepest node.
+#'
+#' @param phy A phylo object. The tree to manipulate.
+#' @param label A character vector containing node labels.
+#' @return A phylo object containing the modified tree.
+#' @examples 
+remove_clade = function(phy, label) {
+  
+  # Check phy
+  check <- .check_phy(phy)
+  if (!is.na(check$error_msg)) { stop(check$error_msg) }
+  # Note, if needed, this will add missing $node.label, $tip.label, $edge.length
+  phy <- check$phy
+  
+  # Check label
+  check_result <- .check_labels(phy, label, type = "node")
+  if (!is.na(check_result$error_msg)) {
+    stop(check_result$error_msg)
+  } else if (!is.na(check_result$warning_msg)) {
+    warning(check_result$warning_msg)
+  }
+  
+  # Get all descendant tips of target nodes
+  n_tip <- Ntip(phy)
+  target_nodes <- match(label, phy$node.label) + n_tip
+  descendants <- getDescendants(phy, target_nodes)
+  target_tips <- descendants[descendants <= n_tip]
+  
+  # Drop tips
+  drop.tip(phy, target_tips, collapse.singles = FALSE)
 }
 
 
@@ -733,8 +944,16 @@ collapse_node = function(phy, label) {
                phy$node.label[root - n_tip], "."))
   }
   n_target <- length(target_nodes)
-  target_edges <- match(target_nodes, phy$edge[,2])
+  target_edges <- match(target_nodes, e[,2])
   target_parents <- e[target_edges, 1]
+  
+  # So long as any target's parent is itself a target node, then get the next
+  # deeper ancestor
+  while (any(target_parents %in% target_nodes)) {
+    is_bad_p <- target_parents %in% target_nodes
+    bad_p_edges <- match(target_parents[is_bad_p], e[,2])
+    target_parents[is_bad_p] <- e[bad_p_edges, 1]
+  }
   
   ## Remappings of vertex indices
   # Map targets to parents
@@ -747,13 +966,34 @@ collapse_node = function(phy, label) {
   # Rebuild the tree
   new_tree <- list(
     edge = matrix(v_remap[e], ncol = 2)[-target_edges, ],
-    Nnode = n_node - length(n_target),
+    Nnode = n_node - n_target,
     node.label = phy$node.label[-(target_nodes - n_tip)],
     tip.label = phy$tip.label,
     edge.length = phy$edge.length[-target_edges]
   )
   class(new_tree) <- "phylo"
   .reindex(new_tree)
+}
+
+
+#' Find nodes with a single child
+#' 
+#' @param phy A phylo object
+#' @return A vector of node labels
+nonbranching_nodes = function(phy) {
+  
+  # Check phy
+  check <- .check_phy(phy)
+  if (!is.na(check$error_msg)) { stop(check$error_msg) }
+  # Note, if needed, this will add missing $node.label, $tip.label, $edge.length
+  phy <- check$phy
+  
+  s <- as.data.frame(phy$edge) %>%
+    group_by(V1) %>%
+    summarise(n_child = n()) %>%
+    filter(n_child == 1)
+  
+  phy$node.label[s$V1 - Ntip(phy)]
 }
 
   
@@ -800,7 +1040,7 @@ move_node = function(phy, label, parent_label) {
   }
   if (length(label) != 1) {
     stop(str_c("`label` should be length 1.\n",
-               "You supplied a vector length ", length(label, ".")))
+               "You supplied a vector length ", length(label), "."))
   }
   
   # Check parent label
@@ -812,7 +1052,7 @@ move_node = function(phy, label, parent_label) {
   }
   if (length(parent_label) != 1) {
     stop(str_c("`parent_label` should be length 1.\n",
-               "You supplied a vector length ", length(parent_label, ".")))
+               "You supplied a vector length ", length(parent_label), "."))
   }
   
   n_tip <- Ntip(phy)
@@ -878,43 +1118,43 @@ move_node = function(phy, label, parent_label) {
 }
 
 
-#' Safely bind tips
-#'
-#' \code{ape::bind.tip()} deletes tip and node label substrings enclosed in
-#' square brackets. This is a safe version which doesn't.
-#'
-#' @noRd
-.bind_tip = function(phy, tip.label, ...) {
-  
-  tip.label <- 
-    tip.label %>%
-    str_replace_all("\\[", "〔") %>%
-    str_replace_all("\\]", "〕")
-  
-  phy$tip.label <- 
-    phy$tip.label %>%
-    str_replace_all("\\[", "〔") %>%
-    str_replace_all("\\]", "〕")
-  
-  phy$node.label <- 
-    phy$node.label %>%
-    str_replace_all("\\[", "〔") %>%
-    str_replace_all("\\]", "〕")
-  
-  phy <- bind.tip(phy, tip.label, ...)
-  
-  phy$tip.label <- 
-    phy$tip.label %>%
-    str_replace_all("〔", "\\[") %>%
-    str_replace_all("〕", "\\]")
-  
-  phy$node.label <- 
-    phy$node.label %>%
-    str_replace_all("〔", "\\[") %>%
-    str_replace_all("〕", "\\]")
-  
-  phy
-}
+#' #' Safely bind tips
+#' #'
+#' #' \code{ape::bind.tip()} deletes tip and node label substrings enclosed in
+#' #' square brackets. This is a safe version which doesn't.
+#' #'
+#' #' @noRd
+#' .bind_tip = function(phy, tip.label, ...) {
+#'   
+#'   tip.label <- 
+#'     tip.label %>%
+#'     str_replace_all("\\[", "〔") %>%
+#'     str_replace_all("\\]", "〕")
+#'   
+#'   phy$tip.label <- 
+#'     phy$tip.label %>%
+#'     str_replace_all("\\[", "〔") %>%
+#'     str_replace_all("\\]", "〕")
+#'   
+#'   phy$node.label <- 
+#'     phy$node.label %>%
+#'     str_replace_all("\\[", "〔") %>%
+#'     str_replace_all("\\]", "〕")
+#'   
+#'   phy <- bind.tip(phy, tip.label, ...)
+#'   
+#'   phy$tip.label <- 
+#'     phy$tip.label %>%
+#'     str_replace_all("〔", "\\[") %>%
+#'     str_replace_all("〕", "\\]")
+#'   
+#'   phy$node.label <- 
+#'     phy$node.label %>%
+#'     str_replace_all("〔", "\\[") %>%
+#'     str_replace_all("〕", "\\]")
+#'   
+#'   phy
+#' }
 
 
 #' Group cloned sisters in the tree ordering
@@ -971,7 +1211,7 @@ move_node = function(phy, label, parent_label) {
   
   # Reorder one way then another, because just applying cladewise reordering
   # can -- for whatever reason -- sometimes produce no change.
-  # This ensure edges are in the desired, cladewise order
+  # This ensures edges are in the desired, cladewise order
   phy <- phy %>% reorder(order = "pruning") %>% reorder(order = "cladewise")
   
   n_tip <- Ntip(phy)

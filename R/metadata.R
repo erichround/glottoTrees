@@ -120,11 +120,17 @@ get_glottolog_phylo_geo = function(
   }
   
   # Choose appropriate dataset
-  if (glottolog_version == "4.3") {
+  if (glottolog_version == "4.0") {
+    phylo_geo <- glottolog_phylo_geo_v4.0
+  } else if (glottolog_version == "4.1") {
+    phylo_geo <- glottolog_phylo_geo_v4.1
+  } else if (glottolog_version == "4.2") {
+    phylo_geo <- glottolog_phylo_geo_v4.2
+  } else if (glottolog_version == "4.3") {
     phylo_geo <- glottolog_phylo_geo_v4.3
   } else if (glottolog_version == "4.4") {
     phylo_geo <- glottolog_phylo_geo_v4.4
-  }
+  } 
   
   phylo_geo
 }

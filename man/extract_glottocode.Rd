@@ -26,9 +26,9 @@ one or more numerals at the end of the string (see
 }
 \examples{
 
-extract_glottocode("DongoKresh[dong1296]-l-")
-extract_glottocode(c("DongoKresh[dong1296]-l-", "Goro-Golo[orlo1238]"))
+extract_glottocode("DongoKresh<dong1296>-l-")
+extract_glottocode(c("DongoKresh<dong1296>-l-", "Goro-Golo<orlo1238>"))
 
 # Duplicate suffixes are recognised and retained
-extract_glottocode(c("Goro-Golo[orlo1238]-1", "Goro-Golo[orlo1238]-2"))
+extract_glottocode(c("Goro-Golo<orlo1238>-1", "Goro-Golo<orlo1238>-2"))
 }

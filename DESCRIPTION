@@ -1,7 +1,7 @@
 Package: glottoTrees
 Type: Package
-Title: Phylogenetic trees in Linguistics
-Version: 0.0.9000
+Title: Phylogenetic Trees in Linguistics
+Version: 0.1.0
 Author: Erich Round
 Maintainer: Erich Round <e.round@uq.edu.au>
 Description: Preparation of phylogenetic trees by adapting resources from glottolog.com.
@@ -20,6 +20,7 @@ Collate:
     'input_checks.R'
     'labels.R'
     'metadata.R'
+    'plotting.R'
     'topology.R'
     'zzz.R'
 RoxygenNote: 7.1.1

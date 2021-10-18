@@ -15,7 +15,7 @@ remove_tip(phy, label)
 A phylo object containing the modified tree.
 }
 \description{
-From a tree, select which tips are to be removed.
+From a tree, remove tips identified by their node labels.
 }
 \examples{
 

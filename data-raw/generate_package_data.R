@@ -2,22 +2,64 @@
 
 # Note: it uses the package functions extract_glottocode() and .name_to_label()
 
+library(tidyverse)
+
+
 #### EXTERNAL DATA
 
 # Read the new glottolog data, which has been put in the data-raw directory with
-# the appropriate name (you'll need to add a final "_vX.X")
+# the appropriate name (you'll need to add a final "_X.X") Note that glottolog
+# uses square brackets, in violation of the Newick standard. A recent update to
+# ape::read.tree() now removes substrings between square brackets, making the
+# reading of glottolog's files more tricky. Here, we read the text and change
+# square brackets to < and >.
 
-glottolog_trees_v4.4 <- ape::read.tree("data-raw/tree_glottolog_newick_4-4.txt")
-glottolog_geography_v4.4 <- 
-  read.csv("data-raw/languages_and_dialects_geo_4-4.csv",
+read_newick = function(version) {
+  scan(file = str_c("data-raw/tree_glottolog_newick_", version, ".txt"),
+       what = "character", sep = "\n", quiet = TRUE) %>%
+    str_replace_all("\\[", "<") %>%
+    str_replace_all("\\]", ">") 
+}
+
+read_geo = function(version) {
+  read.csv(str_c("data-raw/languages_and_dialects_geo_", version, ".csv"),
            stringsAsFactors = FALSE)
+}
+
+
+newick_v4.0 <- read_newick(version = "4-0")
+newick_v4.1 <- read_newick(version = "4-1")
+newick_v4.2 <- read_newick(version = "4-2")
+newick_v4.3 <- read_newick(version = "4-3")
+newick_v4.4 <- read_newick(version = "4-4")
+
+glottolog_trees_v4.0 <- ape::read.tree(text = newick_v4.0)
+glottolog_trees_v4.1 <- ape::read.tree(text = newick_v4.1)
+glottolog_trees_v4.2 <- ape::read.tree(text = newick_v4.2)
+glottolog_trees_v4.3 <- ape::read.tree(text = newick_v4.3)
+glottolog_trees_v4.4 <- ape::read.tree(text = newick_v4.4)
+
+glottolog_geography_v4.0 <- read_geo(version = "4-0")
+glottolog_geography_v4.1 <- read_geo(version = "4-1")
+glottolog_geography_v4.2 <- read_geo(version = "4-2")
+glottolog_geography_v4.3 <- read_geo(version = "4-3")
+glottolog_geography_v4.4 <- read_geo(version = "4-4")
+
 
 # Add the new external datasets 
 
 usethis::use_data(
   internal = FALSE, 
-  overwrite = FALSE,
+  overwrite = TRUE,
+  glottolog_trees_v4.0, 
+  glottolog_trees_v4.1, 
+  glottolog_trees_v4.2, 
+  glottolog_trees_v4.3, 
   glottolog_trees_v4.4, 
+  glottolog_geography_v4.0,
+  glottolog_geography_v4.1,
+  glottolog_geography_v4.2,
+  glottolog_geography_v4.3,
   glottolog_geography_v4.4
 )
 
@@ -25,30 +67,50 @@ usethis::use_data(
 #### INTERNAL DATA
 
 extract_name = function(labels) {
-  regex <- "^[^\\[]+"
+  regex <- "^[^<]+"
   str_extract(labels, regex)
 }
 
-phy <- glottolog_trees_v4.4
-geo <- glottolog_geography_v4.4
-root_labels <- lapply(phy, function(p) p$node.label[1]) %>% unlist()
+phy4.0 <- glottolog_trees_v4.0
+phy4.1 <- glottolog_trees_v4.1
+phy4.2 <- glottolog_trees_v4.2
+phy4.3 <- glottolog_trees_v4.3
+phy4.4 <- glottolog_trees_v4.4
+
+geo4.0 <- glottolog_geography_v4.0
+geo4.1 <- glottolog_geography_v4.1
+geo4.2 <- glottolog_geography_v4.2
+geo4.3 <- glottolog_geography_v4.3
+geo4.4 <- glottolog_geography_v4.4
+
+root_labels4.0 <- lapply(phy4.0, function(p) p$node.label[1]) %>% unlist()
+root_labels4.1 <- lapply(phy4.1, function(p) p$node.label[1]) %>% unlist()
+root_labels4.2 <- lapply(phy4.2, function(p) p$node.label[1]) %>% unlist()
+root_labels4.3 <- lapply(phy4.3, function(p) p$node.label[1]) %>% unlist()
+root_labels4.4 <- lapply(phy4.4, function(p) p$node.label[1]) %>% unlist()
 
 
 ##### Tabulate the labels of families' trees
 
-glottolog_family_labels_v4.4 <-
+tabulate_fam_labs = function(phy, root_labels) {
   data.frame(
     tree = 1:length(phy),
     family_name = extract_name(root_labels),
     family_glottocode = extract_glottocode(root_labels),
     stringsAsFactors = FALSE
   )
+}
+
+glottolog_family_labels_v4.0 <- tabulate_fam_labs(phy4.0, root_labels4.0)
+glottolog_family_labels_v4.1 <- tabulate_fam_labs(phy4.1, root_labels4.1)
+glottolog_family_labels_v4.2 <- tabulate_fam_labs(phy4.2, root_labels4.2)
+glottolog_family_labels_v4.3 <- tabulate_fam_labs(phy4.3, root_labels4.3)
+glottolog_family_labels_v4.4 <- tabulate_fam_labs(phy4.4, root_labels4.4)
 
 
 #### Tabulate gottolog tree vertices and geo data
 
-glottolog_phylo_geo_v4.4 <-
-  
+tabulate_phylo_geo = function(phy, geo, family_labels) {
   # Compile a table of vertices in trees
   lapply(
     1:length(phy),
@@ -63,64 +125,90 @@ glottolog_phylo_geo_v4.4 <-
       ) %>% 
         mutate(tree = i) }
   ) %>% 
-  bind_rows() %>%
-  mutate(
-    glottocode = extract_glottocode(vertex_label),
-    vertex_name = extract_name(vertex_label)
-  ) %>%
-  
-  # Combine the geo and vertex info
-  full_join(
+    bind_rows() %>%
+    mutate(
+      glottocode = extract_glottocode(vertex_label),
+      vertex_name = extract_name(vertex_label)
+    ) %>%
     
-    # Add a column vertex_name, the equivalent of name
-    # that we'd expect to see in a vertex label
-    geo %>% mutate(vertex_name = .name_to_label(name)), 
-    ., 
-    by = c("vertex_name", "glottocode")
-  ) %>% 
-  
-  # Add family names
-  left_join(glottolog_family_labels_v4.4, by = "tree") %>%
-  select(glottocode, isocodes, name, level,
-         vertex_type, vertex_label, vertex_name, 
-         macroarea, latitude, longitude,
-         family_glottocode, family_name, tree) %>%
-  arrange(glottocode) %>%
-  as.data.frame()
+    # Combine the geo and vertex info
+    full_join(
+      
+      # Add a column vertex_name, the equivalent of name
+      # that we'd expect to see in a vertex label
+      geo %>% mutate(vertex_name = .name_to_label(name)), 
+      ., 
+      by = c("vertex_name", "glottocode")
+    ) %>% 
+    
+    # Add family names
+    left_join(family_labels, by = "tree") %>%
+    select(glottocode, isocodes, name, level,
+           vertex_type, vertex_label, vertex_name, 
+           macroarea, latitude, longitude,
+           family_glottocode, family_name, tree) %>%
+    arrange(glottocode) %>%
+    as.data.frame()
+}
 
+glottolog_phylo_geo_v4.0 <-
+  tabulate_phylo_geo(phy4.0, geo4.0, glottolog_family_labels_v4.0)
+glottolog_phylo_geo_v4.1 <-
+  tabulate_phylo_geo(phy4.1, geo4.1, glottolog_family_labels_v4.1)
+glottolog_phylo_geo_v4.2 <-
+  tabulate_phylo_geo(phy4.2, geo4.2, glottolog_family_labels_v4.2)
+glottolog_phylo_geo_v4.3 <-
+  tabulate_phylo_geo(phy4.3, geo4.3, glottolog_family_labels_v4.3)
+glottolog_phylo_geo_v4.4 <-
+  tabulate_phylo_geo(phy4.4, geo4.4, glottolog_family_labels_v4.4)
 
 
 # Tabulate glottolog families and macroareas
-  
-glottolog_family_geo_v4.4 <-
-  glottolog_phylo_geo_v4.4 %>%
-  filter(!is.na(macroarea), !is.na(tree)) %>% 
-  group_by(tree, family_name, family_glottocode, macroarea) %>% 
-  summarise(n = n()) %>% 
-  group_by(tree, family_name, family_glottocode) %>%
-  arrange(-n) %>%
-  mutate(macroarea_n = str_c(macroarea, ":", n)) %>% 
-  summarise(
-    main_macroarea = macroarea[1],
-    all_macroareas = str_c(macroarea_n, collapse = ", ")
-  ) %>% 
-  arrange(tree) %>%
-  as.data.frame()
+
+tabulate_family_geo = function(phylo_geo) {
+  phylo_geo %>%
+    filter(!is.na(macroarea), !is.na(tree)) %>% 
+    group_by(tree, family_name, family_glottocode, macroarea) %>% 
+    summarise(n = n()) %>% 
+    group_by(tree, family_name, family_glottocode) %>%
+    arrange(-n) %>%
+    mutate(macroarea_n = str_c(macroarea, ":", n)) %>% 
+    summarise(
+      main_macroarea = macroarea[1],
+      all_macroareas = str_c(macroarea_n, collapse = ", ")
+    ) %>% 
+    arrange(tree) %>%
+    as.data.frame()
+}
+
+glottolog_family_geo_v4.0 <- tabulate_family_geo(glottolog_phylo_geo_v4.0)
+glottolog_family_geo_v4.1 <- tabulate_family_geo(glottolog_phylo_geo_v4.1)
+glottolog_family_geo_v4.2 <- tabulate_family_geo(glottolog_phylo_geo_v4.2)
+glottolog_family_geo_v4.3 <- tabulate_family_geo(glottolog_phylo_geo_v4.3)
+glottolog_family_geo_v4.4 <- tabulate_family_geo(glottolog_phylo_geo_v4.4)
 
 
-# Add the new internal datasets 
+# Add the new internal datasets
 
 usethis::use_data(
   internal = TRUE, 
   overwrite = TRUE,
   
-  # Older versions
+  glottolog_family_labels_v4.0,
+  glottolog_family_labels_v4.1,
+  glottolog_family_labels_v4.2,
   glottolog_family_labels_v4.3,
-  glottolog_phylo_geo_v4.3,
-  glottolog_family_geo_v4.3,
-  
-  # New version beign added now
   glottolog_family_labels_v4.4,
+  
+  glottolog_phylo_geo_v4.0,
+  glottolog_phylo_geo_v4.1,
+  glottolog_phylo_geo_v4.2,
+  glottolog_phylo_geo_v4.3,
   glottolog_phylo_geo_v4.4,
+  
+  glottolog_family_geo_v4.0,
+  glottolog_family_geo_v4.1,
+  glottolog_family_geo_v4.2,
+  glottolog_family_geo_v4.3,
   glottolog_family_geo_v4.4
 )

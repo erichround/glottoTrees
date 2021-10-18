@@ -200,7 +200,7 @@ abridge_labels = function(phy) {
   
   if (any(c(tip_fail, node_fail))) {
     warning(
-      str_c("Labels without glottocodes detected and left unchanged: ",
+      str_c("Labels without glottocodes were detected and left unchanged for: ",
             sum(tip_fail), " tip(s)",
             ifelse(!any(tip_fail), "", 
                    str_c(": ",
@@ -316,11 +316,10 @@ relabel_with_names = function(
   n_missing_tips <- length(missing_tips)
   n_missing_nodes <- length(missing_nodes)
   
-  # If a name is missing, give warning and retain 
-  # the glottocode
+  # If a name is missing, give warning and retain the glottocode
   if (n_missing_tips + n_missing_nodes > 0) {
     warning(
-      str_c("Labels without glottocodes detected and left unchanged: ",
+      str_c("Labels without glottocodes were detected and left unchanged for: ",
             n_missing_tips, " tip(s)",
             ifelse(n_missing_tips == 0, "", 
                    str_c(": ",
@@ -369,15 +368,15 @@ relabel_with_names = function(
 #'
 #' @examples
 #'
-#' extract_glottocode("DongoKresh[dong1296]-l-")
-#' extract_glottocode(c("DongoKresh[dong1296]-l-", "Goro-Golo[orlo1238]"))
+#' extract_glottocode("DongoKresh<dong1296>-l-")
+#' extract_glottocode(c("DongoKresh<dong1296>-l-", "Goro-Golo<orlo1238>"))
 #'
 #' # Duplicate suffixes are recognised and retained
-#' extract_glottocode(c("Goro-Golo[orlo1238]-1", "Goro-Golo[orlo1238]-2"))
+#' extract_glottocode(c("Goro-Golo<orlo1238>-1", "Goro-Golo<orlo1238>-2"))
 extract_glottocode = function(labels) {
   # note: two glottocodes contain numbers in the intial
   #       four characters: b10b and 3adt
-  regex <- "(?<=(^|\\[))([a-z]{4}|b10b|3adt)[0-9]{4}(?=(\\]|-[0-9]{1,3}$|$))"
+  regex <- "(?<=(^|<))([a-z]{4}|b10b|3adt)[0-9]{4}(?=(>|-[0-9]{1,3}$|$))"
   g <- str_extract(labels, regex)
   copy_suffix <- .extract_copy_suffix(labels)
   str_c(g, .hyphenate(copy_suffix))

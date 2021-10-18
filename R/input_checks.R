@@ -14,7 +14,7 @@
 #' @noRd
 .check_glottolog_version = function(glottolog_version) {
   
-  available_versions <- c("4.3", "4.4")
+  available_versions <- c("4.0", "4.1", "4.2", "4.3", "4.4")
   
   if (!is.character(glottolog_version)) {
     if (is.numeric(glottolog_version) | is.factor(glottolog_version)) {
