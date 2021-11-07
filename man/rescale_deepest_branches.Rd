@@ -30,7 +30,7 @@ nodelabels(tree$node.label)
 # tree now contains five language families. All branch lengths are 1.
 # Set the deepest branch lengths to 5, implying a great genealogical
 # distance between the families within the tree.
-tree2 <- set_deepest_branch_lengths(tree, length = 5)
+tree2 <- rescale_deepest_branches(tree, length = 5)
 plot(tree2)
 nodelabels(tree2$node.label)
 }

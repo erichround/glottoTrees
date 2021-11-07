@@ -10,6 +10,8 @@ plot_glotto(
   extra_width = 0,
   extra_height = 0,
   extra_offset = 0,
+  srt = 0,
+  adj = NULL,
   ...
 )
 }
@@ -24,6 +26,12 @@ plot_glotto(
 
 \item{extra_offset}{A numeric, extra offset to add beyond the default.}
 
+\item{srt}{A numeric giving how much the labels are rotated in degrees.}
+
+\item{adj}{A numeric specifying the justification of the text strings of the
+labels: 0 (left-justification), 0.5 (centering), or 1
+(right-justification).}
+
 \item{...}{Additional arguments passed to plot().}
 }
 \description{
@@ -31,6 +39,11 @@ An attempt is made to choose a reasonable plot width, height and offset of
 the labels from the tree's tips. If the choices are not satisfactory,
 manipulate them using positive or negative values of \code{extra_width},
 \code{extra_height} and \code{extra_offset}.
+}
+\details{
+By default, tip labels will run vertically, except in the case that all tip
+labels are a maximum of one character long, in which case they are oriented
+horizontally.
 }
 \examples{
 

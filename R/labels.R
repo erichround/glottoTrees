@@ -143,7 +143,7 @@ relabel_node = function(phy, label, new_label) {
 #' nodelabels(tree2$node.label)
 #' 
 #' # Retain duplicate suffixes:
-#' tree3 <- clone_tip(tree, "Jollado[chol1278]", n = 2, subgroup = TRUE)
+#' tree3 <- clone_tip(tree, "Jollado<chol1278>", n = 2, subgroup = TRUE)
 #' tree3a <- apply_duplicate_suffixes(tree3)
 #' plot(tree3a)
 #' nodelabels(tree3a$node.label)
@@ -357,7 +357,7 @@ relabel_with_names = function(
 #'
 #' Glottocodes comprise four lowercase letters (or b10b or 3adt) followed by
 #' four numbers, and are only identified if they are initial in the string or
-#' are preceded by [.
+#' are preceded by <.
 #'
 #' Also recognizes and retains duplicate suffixes, i.e., a hyphen followed by
 #' one or more numerals at the end of the string (see
@@ -373,12 +373,12 @@ relabel_with_names = function(
 #'
 #' # Duplicate suffixes are recognised and retained
 #' extract_glottocode(c("Goro-Golo<orlo1238>-1", "Goro-Golo<orlo1238>-2"))
-extract_glottocode = function(labels) {
-  # note: two glottocodes contain numbers in the intial
+extract_glottocode = function(label) {
+  # note: two glottocodes contain numbers in the initial
   #       four characters: b10b and 3adt
   regex <- "(?<=(^|<))([a-z]{4}|b10b|3adt)[0-9]{4}(?=(>|-[0-9]{1,3}$|$))"
-  g <- str_extract(labels, regex)
-  copy_suffix <- .extract_copy_suffix(labels)
+  g <- str_extract(label, regex)
+  copy_suffix <- .extract_copy_suffix(label)
   str_c(g, .hyphenate(copy_suffix))
 }
 

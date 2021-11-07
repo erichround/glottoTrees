@@ -4,7 +4,7 @@
 \alias{extract_glottocode}
 \title{Extract glottocode substrings}
 \usage{
-extract_glottocode(labels)
+extract_glottocode(label)
 }
 \arguments{
 \item{label}{A string}
@@ -18,7 +18,7 @@ From a character vector, extracts the first glottocode from each element.
 \details{
 Glottocodes comprise four lowercase letters (or b10b or 3adt) followed by
 four numbers, and are only identified if they are initial in the string or
-are preceded by [.
+are preceded by <.
 
 Also recognizes and retains duplicate suffixes, i.e., a hyphen followed by
 one or more numerals at the end of the string (see

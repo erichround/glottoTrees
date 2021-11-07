@@ -30,14 +30,12 @@ library(ape)
 
 tree <- abridge_labels(get_glottolog_trees("LeftMay"))
 tree <- ultrametricize(rescale_branches_exp(tree))
-plot(tree)
-nodelabels(tree$node.label)
+plot_glotto(tree)
 
 # Attach one or more new tips to a tree:
 tree2 <- add_tip(tree, label = "rockypeak", parent_label = "iter1240")
-plot(tree2)
-nodelabels(tree2$node.label)
-tree3 <- add_tip(tree, c("bo", "kaumifi"),  parent_label = "bopa1235")
+plot_glotto(tree2)
+tree3 <- add_tip(tree, label = c("bo", "kaumifi"),  parent_label = "bopa1235")
 plot(tree3)
 nodelabels(tree3$node.label)
 

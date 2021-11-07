@@ -24,10 +24,8 @@ it will be treated as referring to the tip, not the node.
 library(ape)
 
 tree <- abridge_labels(get_glottolog_trees("Tangkic"))
-plot(tree)
-nodelabels(tree$node.label)
+plot_glotto(tree)
 
-tree2 <- keep_as_tip(tree, c("lard1243", "kang1283", "nyan1300", "gang1267"))
-plot(tree2)
-nodelabels(tree2$node.label)
+tree2 <- keep_as_tip(tree, c("lard1243", "kaya1319", "nyan1300", "gang1267"))
+plot_glotto(tree2)
 }

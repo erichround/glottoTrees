@@ -28,3 +28,10 @@ tip.
 
 Any labels included in \code{label} which are tip labels only are ignored.
 }
+\examples{
+
+tree1 <- abridge_labels(get_glottolog_trees("GreatAndamanese"))
+plot_glotto(tree1)
+tree2 <- convert_to_tip(tree1, label = c("okol1242", "sout2683"))
+plot_glotto(tree2)
+}

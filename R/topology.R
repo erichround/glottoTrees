@@ -339,12 +339,10 @@ keep_tip = function(phy, label) {
 #' library(ape)
 #'
 #' tree <- abridge_labels(get_glottolog_trees("Tangkic"))
-#' plot(tree)
-#' nodelabels(tree$node.label)
+#' plot_glotto(tree)
 #'
-#' tree2 <- keep_as_tip(tree, c("lard1243", "kang1283", "nyan1300", "gang1267"))
-#' plot(tree2)
-#' nodelabels(tree2$node.label)
+#' tree2 <- keep_as_tip(tree, c("lard1243", "kaya1319", "nyan1300", "gang1267"))
+#' plot_glotto(tree2)
 keep_as_tip = function(phy, label) {
   
   # Check phy
@@ -366,7 +364,7 @@ keep_as_tip = function(phy, label) {
   if (length(node_label) > 0) {
     phy <- phy %>% convert_to_tip(node_label)
   }
-  # Call keep_tip() 
+
   phy %>% keep_tip(label)
 }
 
@@ -383,31 +381,10 @@ keep_as_tip = function(phy, label) {
 #' library(ape)
 #' 
 #' tree <- abridge_labels(get_glottolog_trees("Tangkic"))
-#' plot(tree)
-#' nodelabels(tree$node.label)
+#' plot_glotto(tree)
 #' 
 #' tree2 <- remove_tip(tree, c("kang1283", "kaya1319"))
-#' plot(tree2)
-#' nodelabels(tree2$node.label)
-#' 
-#' ## How to remove all tips below a node, but keep the node as a tip
-#' 
-#' # By convention, when all tips below a node are removed, the node is removed.
-#' # Here we remove nyan1300 and kaya1319. Node kaya1318 is removed too:
-#' unwanted_tips <- c("nyan1300", "kaya1319")
-#' tree3 <- remove_tip(tree5a, label = unwanted_tips)
-#' plot(tree3)
-#' nodelabels(tree5$node.label)
-#' 
-#' # step 1 - add a new tip with the same name
-#' tree4a <- add_tip(tree, "kaya1318", parent_node = "sout2758")
-#' plot(tree4)
-#' nodelabels(tree5a$node.label)
-#' 
-#' # step 2 - remove the unwanted tips and the original node
-#' tree4b <- remove_tip(tree4a, label = unwanted_tips)
-#' plot(tree4b)
-#' nodelabels(tree4b$node.label)
+#' plot_glotto(tree2)
 remove_tip = function(phy, label) {
   
   # Check phy
@@ -447,14 +424,12 @@ remove_tip = function(phy, label) {
 #' 
 #' tree <- abridge_labels(get_glottolog_trees("LeftMay"))
 #' tree <- ultrametricize(rescale_branches_exp(tree))
-#' plot(tree)
-#' nodelabels(tree$node.label)
+#' plot_glotto(tree)
 #' 
 #' # Attach one or more new tips to a tree:
 #' tree2 <- add_tip(tree, label = "rockypeak", parent_label = "iter1240")
-#' plot(tree2)
-#' nodelabels(tree2$node.label)
-#' tree3 <- add_tip(tree, c("bo", "kaumifi"),  parent_label = "bopa1235")
+#' plot_glotto(tree2)
+#' tree3 <- add_tip(tree, label = c("bo", "kaumifi"),  parent_label = "bopa1235")
 #' plot(tree3)
 #' nodelabels(tree3$node.label)
 #' 
@@ -519,11 +494,19 @@ add_tip = function(phy, label, parent_label) {
   sibling_edges <- which(phy$edge[, 1] == parent_node)
   new_edgelength <- max(phy$edge.length[sibling_edges])
   
-  # Increase node indices by 1
-  e <- e + (e > n_tip)
+  # # Increase node indices by 1
+  # e <- e + (e > n_tip)
+  # 
+  # # Add new pendant, placing the new edge & tip last among the edges & tips
+  # e <- rbind(e, c(parent_node + 1, n_tip + 1))
   
-  # Add new pendant, placing the new edge & tip last among the edges & tips
-  e <- rbind(e, c(parent_node + 1, n_tip + 1))
+  # Increase node indices by n_label
+  e <- e + (e > n_tip) * n_label
+  parent_node <- parent_node + n_label
+  
+  # Add new pendants, placing the new edges & tips last among the edges & tips
+  new_pend <- matrix(c(rep(parent_node, n_label), n_tip + 1:n_label), ncol = 2)
+  e <- rbind(e, new_pend)
   
   # Rebuild the tree
   new_tree <- list(
@@ -531,7 +514,7 @@ add_tip = function(phy, label, parent_label) {
     Nnode = phy$Nnode,
     node.label = phy$node.label,
     tip.label = c(phy$tip.label, label),
-    edge.length = c(phy$edge.length, new_edgelength)
+    edge.length = c(phy$edge.length, rep(new_edgelength, n_label))
   )
   class(new_tree) <- "phylo"
   
@@ -776,6 +759,11 @@ clone_tip = function(
 #'   tip labels.
 #' @return A phylo object containing the modified tree.
 #' @examples 
+#' 
+#' tree1 <- abridge_labels(get_glottolog_trees("GreatAndamanese"))
+#' plot_glotto(tree1)
+#' tree2 <- convert_to_tip(tree1, label = c("okol1242", "sout2683"))
+#' plot_glotto(tree2)
 convert_to_tip = function(phy, label, warn = TRUE) {
   
   # Check phy

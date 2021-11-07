@@ -38,7 +38,7 @@ plot(tree2)
 nodelabels(tree2$node.label)
 
 # Retain duplicate suffixes:
-tree3 <- clone_tip(tree, "Jollado[chol1278]", n = 2, subgroup = TRUE)
+tree3 <- clone_tip(tree, "Jollado<chol1278>", n = 2, subgroup = TRUE)
 tree3a <- apply_duplicate_suffixes(tree3)
 plot(tree3a)
 nodelabels(tree3a$node.label)
