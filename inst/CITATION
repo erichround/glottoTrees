@@ -1,4 +1,4 @@
-citHeader("To cite PhyloWeights in publications use:")
+citHeader("To cite glottoTrees in publications use:")
 
 citEntry(entry = "Manual",
          title = "{glottoTrees}: Phylogenetic trees in Linguistics.",
