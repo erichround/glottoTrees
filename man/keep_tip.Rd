@@ -22,10 +22,8 @@ Nominate which tips are to be kept. Others are removed.
 library(ape)
 
 tree <- abridge_labels(get_glottolog_trees("Tangkic"))
-plot(tree)
-nodelabels(tree$node.label)
+plot_glotto(tree)
 
 tree2 <- keep_tip(tree, c("lard1243", "kang1283", "kaya1319"))
-plot(tree2)
-nodelabels(tree2$node.label)
+plot_glotto(tree2)
 }

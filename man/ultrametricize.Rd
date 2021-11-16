@@ -21,9 +21,7 @@ most-distance tip(s).
 
 library(ape)
 tree <- rescale_branches_exp(abridge_labels(get_glottolog_trees("Siouan")))
-plot(tree)
-nodelabels(tree$node.label)
+plot_glotto(tree)
 tree2 <- ultrametricize(tree)
-plot(tree2)
-nodelabels(tree2$node.label)
+plot_glotto(tree2)
 }

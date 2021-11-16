@@ -22,9 +22,7 @@ Collapse one or more nodes rootwards
 library(ape)
 tree <- 
   rescale_branches_exp(abridge_labels(get_glottolog_trees("Tangkic")))
-plot(tree)
-nodelabels(tree$node.label)
+plot_glotto(tree)
 tree2 <- collapse_node(tree, "gang1267")
-plot(tree2)
-nodelabels(tree2$node.label)
+plot_glotto(tree2)
 }

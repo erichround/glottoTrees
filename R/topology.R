@@ -295,12 +295,10 @@ assemble_supertree = function(
 #' library(ape)
 #' 
 #' tree <- abridge_labels(get_glottolog_trees("Tangkic"))
-#' plot(tree)
-#' nodelabels(tree$node.label)
+#' plot_glotto(tree)
 #' 
 #' tree2 <- keep_tip(tree, c("lard1243", "kang1283", "kaya1319"))
-#' plot(tree2)
-#' nodelabels(tree2$node.label)
+#' plot_glotto(tree2)
 keep_tip = function(phy, label) {
   
   # Check phy
@@ -430,14 +428,12 @@ remove_tip = function(phy, label) {
 #' tree2 <- add_tip(tree, label = "rockypeak", parent_label = "iter1240")
 #' plot_glotto(tree2)
 #' tree3 <- add_tip(tree, label = c("bo", "kaumifi"),  parent_label = "bopa1235")
-#' plot(tree3)
-#' nodelabels(tree3$node.label)
+#' plot_glotto(tree3)
 #' 
 #' # Move tips by using remove_tip() and add_tip():
 #' tree4 <- remove_tip(tree, "amap1240")
 #' tree4a <- add_tip(tree4, "amap1240", parent_label = "left1242")
-#' plot(tree4a)
-#' nodelabels(tree4a$node.label)
+#' plot_glotto(tree4a)
 add_tip = function(phy, label, parent_label) {
   
   # Note: TreeTools::AddTip doesn't suffice, because it scrambles node labels
@@ -544,12 +540,10 @@ add_tip = function(phy, label, parent_label) {
 #'
 #' tree <- abridge_labels(get_glottolog_trees("LeftMay"))
 #' tree <- ultrametricize(rescale_branches_exp(tree))
-#' plot(tree)
-#' nodelabels(tree$node.label)
-
+#' plot_glotto(tree)
+#' 
 #' tree2 <- move_tip(tree, "amap1240", parent_label = "left1242")
-#' plot(tree2)
-#' nodelabels(tree2$node.label)
+#' plot_glotto(tree2)
 move_tip = function(phy, label, parent_label) {
   
   # Check labels
@@ -603,34 +597,27 @@ move_tip = function(phy, label, parent_label) {
 #' 
 #' tree <- 
 #'   rescale_branches_exp(abridge_labels(get_glottolog_trees("Tangkic")))
-#' plot(tree)
-#' nodelabels(tree$node.label)
+#' plot_glotto(tree)
 #' tree2 <- clone_tip(tree, "nyan1300")
-#' plot(tree2)
-#' nodelabels(tree2$node.label)
+#' plot_glotto(tree2)
 #' 
 #' tree3 <- clone_tip(tree, "nyan1300", subgroup = TRUE)
-#' plot(tree3)
-#' nodelabels(tree3$node.label)
+#' plot_glotto(tree3)
+#' 
 #' # Add suffixes to labels, to keep all labels distinct
 #' tree3a <- apply_duplicate_suffixes(tree3)
-#' plot(tree3a)
-#' nodelabels(tree3a$node.label)
+#' plot_glotto(tree3a)
 #' 
 #' tree4 <- clone_tip(tree, "lard1243", n = 3)
-#' plot(tree4)
-#' nodelabels(tree4$node.label)
+#' plot_glotto(tree4)
 #' 
 #' tree5 <- clone_tip(tree, "lard1243", n = 3, subgroup = TRUE)
-#' plot(tree5)
-#' nodelabels(tree5$node.label)
+#' plot_glotto(tree5)
 #' 
 #' tree6 <- clone_tip(tree, c("lard1243", "nyan1300"), n = 2, subgroup = TRUE)
-#' plot(tree6)
-#' nodelabels(tree6$node.label)
+#' plot_glotto(tree6)
 #' tree6a <- apply_duplicate_suffixes(tree6)
-#' plot(tree6a)
-#' nodelabels(tree6a$node.label)
+#' plot_glotto(tree6a)
 #' 
 #' \dontrun{
 #' # Returns error if any element of `label` is not in `phy`
@@ -897,11 +884,9 @@ remove_clade = function(phy, label) {
 #' library(ape)
 #' tree <- 
 #'   rescale_branches_exp(abridge_labels(get_glottolog_trees("Tangkic")))
-#' plot(tree)
-#' nodelabels(tree$node.label)
+#' plot_glotto(tree)
 #' tree2 <- collapse_node(tree, "gang1267")
-#' plot(tree2)
-#' nodelabels(tree2$node.label)
+#' plot_glotto(tree2)
 collapse_node = function(phy, label) {
   
   # Check phy
@@ -1005,12 +990,10 @@ nonbranching_nodes = function(phy) {
 #'
 #' tree <- abridge_labels(get_glottolog_trees("LeftMay"))
 #' tree <- ultrametricize(rescale_branches_exp(tree))
-#' plot(tree)
-#' nodelabels(tree$node.label)
-
+#' plot_glotto(tree)
+#' 
 #' tree2 <- move_node(tree, "iter1240", parent_label = "left1242")
-#' plot(tree2)
-#' nodelabels(tree2$node.label)
+#' plot_glotto(tree2)
 move_node = function(phy, label, parent_label) {
   
   # Check phy

@@ -36,12 +36,10 @@ plot_glotto(tree)
 tree2 <- add_tip(tree, label = "rockypeak", parent_label = "iter1240")
 plot_glotto(tree2)
 tree3 <- add_tip(tree, label = c("bo", "kaumifi"),  parent_label = "bopa1235")
-plot(tree3)
-nodelabels(tree3$node.label)
+plot_glotto(tree3)
 
 # Move tips by using remove_tip() and add_tip():
 tree4 <- remove_tip(tree, "amap1240")
 tree4a <- add_tip(tree4, "amap1240", parent_label = "left1242")
-plot(tree4a)
-nodelabels(tree4a$node.label)
+plot_glotto(tree4a)
 }

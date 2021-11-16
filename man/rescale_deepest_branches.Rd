@@ -25,12 +25,10 @@ arnhem_hypothesis <-
   c("Gunwinyguan", "Mangarrayi-Maran", "Maningrida",
     "Kungarakany", "Gaagudju")
 tree <- assemble_rake(abridge_labels(get_glottolog_trees(arnhem_hypothesis)))
-plot(tree)
-nodelabels(tree$node.label)
+plot_glotto(tree)
 # tree now contains five language families. All branch lengths are 1.
 # Set the deepest branch lengths to 5, implying a great genealogical
 # distance between the families within the tree.
 tree2 <- rescale_deepest_branches(tree, length = 5)
-plot(tree2)
-nodelabels(tree2$node.label)
+plot_glotto(tree2)
 }

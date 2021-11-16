@@ -31,11 +31,9 @@ Suffixation of tips and of nodes are handled independently of one another.
 library(ape)
 
 tree <- abridge_labels(get_glottolog_trees("Koreanic"))
-plot(tree)
-nodelabels(tree$node.label)
+plot_glotto(tree)
 tree2 <- clone_tip(tree, "chol1278", n = 2, subgroup = TRUE)
-plot(tree2)
-nodelabels(tree2$node.label)
+plot_glotto(tree2)
 # Technically, tree2 is ill-formed because it has duplicate tip labels.
 # Note how this causes problems if we try to clone one of them, since it
 # is unclear which should be cloned:
@@ -45,16 +43,13 @@ tree2a <- clone_tip(tree2, "chol1278")
 
 # Suffixation of duplicate tips
 tree3 <- apply_duplicate_suffixes(tree2)
-plot(tree3)
-nodelabels(tree3$node.label)
+plot_glotto(tree3)
 
 # Once they are suffixed, these tips can be cloned successfully:
 tree4 <- clone_tip(tree3, c("chol1278-2", "chol1278-3"), subgroup = TRUE)
-plot(tree4)
-nodelabels(tree4$node.label)
+plot_glotto(tree4)
 # Suffixing is applied across all tips that share a glottocode, and
 # separately, across all nodes that share a glottocode:
 tree5 <- apply_duplicate_suffixes(tree4)
-plot(tree5)
-nodelabels(tree5$node.label)
+plot_glotto(tree5)
 }

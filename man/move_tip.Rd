@@ -33,9 +33,8 @@ library(ape)
 
 tree <- abridge_labels(get_glottolog_trees("LeftMay"))
 tree <- ultrametricize(rescale_branches_exp(tree))
-plot(tree)
-nodelabels(tree$node.label)
+plot_glotto(tree)
+
 tree2 <- move_tip(tree, "amap1240", parent_label = "left1242")
-plot(tree2)
-nodelabels(tree2$node.label)
+plot_glotto(tree2)
 }

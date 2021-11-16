@@ -23,9 +23,7 @@ Sets the deepest branches to length 1/2, the next deepest to 1/4, the next to
 
 library(ape)
 tree <- abridge_labels(get_glottolog_trees("Siouan"))
-plot(tree)
-nodelabels(tree$node.label)
+plot_glotto(tree)
 tree2 <- rescale_branches_exp(tree)
-plot(tree2)
-nodelabels(tree2$node.label)
+plot_glotto(tree2)
 }

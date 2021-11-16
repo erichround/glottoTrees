@@ -25,9 +25,7 @@ By default, sets all branch lengths to 1.
 library(ape)
 tree <- abridge_labels(get_glottolog_trees("Tangkic"))
 tree2 <- clone_tip(tree, "nyan1300", n = 2, subgroup = TRUE)
-plot(tree2)
-nodelabels(tree2$node.label)
+plot_glotto(tree2)
 tree3 <- rescale_branches(tree2)
-plot(tree3)
-nodelabels(tree3$node.label)
+plot_glotto(tree3)
 }

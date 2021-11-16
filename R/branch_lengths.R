@@ -15,14 +15,12 @@
 #'   c("Gunwinyguan", "Mangarrayi-Maran", "Maningrida",
 #'     "Kungarakany", "Gaagudju")
 #' tree <- assemble_rake(abridge_labels(get_glottolog_trees(arnhem_hypothesis)))
-#' plot(tree)
-#' nodelabels(tree$node.label)
+#' plot_glotto(tree)
 #' # tree now contains five language families. All branch lengths are 1.
 #' # Set the deepest branch lengths to 5, implying a great genealogical
 #' # distance between the families within the tree.
 #' tree2 <- rescale_deepest_branches(tree, length = 5)
-#' plot(tree2)
-#' nodelabels(tree2$node.label)
+#' plot_glotto(tree2)
 rescale_deepest_branches = function(
   phy, 
   length = 1
@@ -71,11 +69,9 @@ rescale_deepest_branches = function(
 #' library(ape)
 #' tree <- abridge_labels(get_glottolog_trees("Tangkic"))
 #' tree2 <- clone_tip(tree, "nyan1300", n = 2, subgroup = TRUE)
-#' plot(tree2)
-#' nodelabels(tree2$node.label)
+#' plot_glotto(tree2)
 #' tree3 <- rescale_branches(tree2)
-#' plot(tree3)
-#' nodelabels(tree3$node.label)
+#' plot_glotto(tree3)
 rescale_branches = function(
   phy,
   length = 1
@@ -121,11 +117,9 @@ rescale_branches = function(
 #'
 #' library(ape)
 #' tree <- abridge_labels(get_glottolog_trees("Siouan"))
-#' plot(tree)
-#' nodelabels(tree$node.label)
+#' plot_glotto(tree)
 #' tree2 <- rescale_branches_exp(tree)
-#' plot(tree2)
-#' nodelabels(tree2$node.label)
+#' plot_glotto(tree2)
 rescale_branches_exp = function(
   phy,
   length = 1
@@ -177,11 +171,9 @@ rescale_branches_exp = function(
 #' 
 #' library(ape)
 #' tree <- rescale_branches_exp(abridge_labels(get_glottolog_trees("Siouan")))
-#' plot(tree)
-#' nodelabels(tree$node.label)
+#' plot_glotto(tree)
 #' tree2 <- ultrametricize(tree)
-#' plot(tree2)
-#' nodelabels(tree2$node.label)
+#' plot_glotto(tree2)
 ultrametricize = function(phy) {
   
   # Check phy

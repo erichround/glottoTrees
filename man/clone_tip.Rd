@@ -30,34 +30,27 @@ library(ape)
 
 tree <- 
   rescale_branches_exp(abridge_labels(get_glottolog_trees("Tangkic")))
-plot(tree)
-nodelabels(tree$node.label)
+plot_glotto(tree)
 tree2 <- clone_tip(tree, "nyan1300")
-plot(tree2)
-nodelabels(tree2$node.label)
+plot_glotto(tree2)
 
 tree3 <- clone_tip(tree, "nyan1300", subgroup = TRUE)
-plot(tree3)
-nodelabels(tree3$node.label)
+plot_glotto(tree3)
+
 # Add suffixes to labels, to keep all labels distinct
 tree3a <- apply_duplicate_suffixes(tree3)
-plot(tree3a)
-nodelabels(tree3a$node.label)
+plot_glotto(tree3a)
 
 tree4 <- clone_tip(tree, "lard1243", n = 3)
-plot(tree4)
-nodelabels(tree4$node.label)
+plot_glotto(tree4)
 
 tree5 <- clone_tip(tree, "lard1243", n = 3, subgroup = TRUE)
-plot(tree5)
-nodelabels(tree5$node.label)
+plot_glotto(tree5)
 
 tree6 <- clone_tip(tree, c("lard1243", "nyan1300"), n = 2, subgroup = TRUE)
-plot(tree6)
-nodelabels(tree6$node.label)
+plot_glotto(tree6)
 tree6a <- apply_duplicate_suffixes(tree6)
-plot(tree6a)
-nodelabels(tree6a$node.label)
+plot_glotto(tree6a)
 
 \dontrun{
 # Returns error if any element of `label` is not in `phy`
