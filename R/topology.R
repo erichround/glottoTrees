@@ -357,9 +357,30 @@ keep_as_tip = function(phy, label) {
     warning(check_result$warning_msg) 
   }
   
-  # Call convert_to_tip() for node labels which are not also tip labels
   node_label <- label %>% setdiff(phy$tip.label)
+  n_tip <- Ntip(phy)
+
   if (length(node_label) > 0) {
+    # Return error if any nodes targeted for replacement dominate any tip in 
+    # label (nodes dominated by nodes will be handled when convert_to_tip() is
+    # called, below).  
+    nodes <- match(node_label, phy$node.label) + n_tip
+    tips <- match(label, phy$tip.label)
+    for (nd in nodes) {
+      descendants <- getDescendants(phy, nd)
+      dom_tip <- intersect(descendants, tips)
+      n_dom_tip <- length(dom_tip)
+      if (n_dom_tip > 0) {
+        stop(str_c("It is not possible to convert a node to a tip and ",
+                   "also preserve a tip that is dominates.\n",
+                   "You provided node ", phy$node.label[nd - n_tip],
+                   ", as well as ", phy$tip.label[dom_tip[1]],
+                   ", which is a tip that it dominates."
+        ))
+      }
+    }
+    
+    # Call convert_to_tip() for node labels which are not also tip labels
     phy <- phy %>% convert_to_tip(node_label)
   }
 

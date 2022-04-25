@@ -149,6 +149,15 @@
     ))
   }
   
+  if (any(is.na(label))) {
+    return(list(
+      error_msg = str_c("Elements of `label` cannot be NA.\n",
+                        "You provided NA as element ", 
+                        which(is.na(label))[1], " of `label`."),
+      warning_msg = NA
+    ))
+  }
+  
   if (any(label == "")) {
     return(list(
       error_msg = str_c("Elements of `label` cannot be an empty string.\n",
