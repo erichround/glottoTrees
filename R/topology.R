@@ -923,6 +923,7 @@ collapse_node = function(phy, label) {
   } else if (!is.na(check_result$warning_msg)) {
     warning(check_result$warning_msg) 
   }
+  label <- unique(label)
   
   n_tip <- Ntip(phy)
   n_node <- Nnode(phy)
