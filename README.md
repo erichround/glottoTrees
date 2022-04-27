@@ -6,6 +6,8 @@ Preparation of phylogenetic trees by adapting resources from glottolog.com
 
 For a detailed tutorial on the use of this package, see https://slcladal.github.io/phylo.
 
+For a published paper in Linguistic Typology, whose Supplementary Materials includes a detailed tutorial, see https://doi.org/10.1515/lingty-2021-0025. 
+
 For a talk that discusses the scientific issues, see https://youtu.be/yJeQ6AGDLK0.
 
 ## Issues
