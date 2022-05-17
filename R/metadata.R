@@ -9,8 +9,8 @@
 #' \code{name_in_tree}, \code{position}, \code{tree} and \code{tree_name}.
 #'
 #' @param glottolog_version A character string, specifying which glottolog
-#'   version to use. Currently available options are \code{'4.3'} and
-#'   \code{'4.4'}. If no value is specified then the newest available version is
+#'   version to use. Currently available options are \code{'4.0'} through to
+#'   \code{'4.5'}. If no value is specified then the newest available version is
 #'   used.
 #' @examples
 #' head(get_glottolog_languages())
@@ -130,6 +130,8 @@ get_glottolog_phylo_geo = function(
     phylo_geo <- glottolog_phylo_geo_v4.3
   } else if (glottolog_version == "4.4") {
     phylo_geo <- glottolog_phylo_geo_v4.4
+  } else if (glottolog_version == "4.5") {
+    phylo_geo <- glottolog_phylo_geo_v4.5
   } 
   
   phylo_geo
@@ -191,12 +193,12 @@ which_tree = function(
 #' The current glottolog version
 #'
 #' Returns the newest version of glottolog for which data is included in this
-#' package, which is \code{'4.4'}.
+#' package, which is \code{'4.5'}.
 #'
 #' @return A character string.
 #' @noRd
 .get_newest_version = function() {
-  "4.4"
+  "4.5"
 }
 
 

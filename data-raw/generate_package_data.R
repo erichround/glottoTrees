@@ -1,4 +1,4 @@
-# This script is for updating with version 4.4
+# This script is for updating with version 4.5
 
 # Note: it uses the package functions extract_glottocode() and .name_to_label()
 
@@ -32,18 +32,21 @@ newick_v4.1 <- read_newick(version = "4-1")
 newick_v4.2 <- read_newick(version = "4-2")
 newick_v4.3 <- read_newick(version = "4-3")
 newick_v4.4 <- read_newick(version = "4-4")
+newick_v4.5 <- read_newick(version = "4-5")
 
 glottolog_trees_v4.0 <- ape::read.tree(text = newick_v4.0)
 glottolog_trees_v4.1 <- ape::read.tree(text = newick_v4.1)
 glottolog_trees_v4.2 <- ape::read.tree(text = newick_v4.2)
 glottolog_trees_v4.3 <- ape::read.tree(text = newick_v4.3)
 glottolog_trees_v4.4 <- ape::read.tree(text = newick_v4.4)
+glottolog_trees_v4.5 <- ape::read.tree(text = newick_v4.5)
 
 glottolog_geography_v4.0 <- read_geo(version = "4-0")
 glottolog_geography_v4.1 <- read_geo(version = "4-1")
 glottolog_geography_v4.2 <- read_geo(version = "4-2")
 glottolog_geography_v4.3 <- read_geo(version = "4-3")
 glottolog_geography_v4.4 <- read_geo(version = "4-4")
+glottolog_geography_v4.5 <- read_geo(version = "4-5")
 
 
 # Add the new external datasets 
@@ -56,11 +59,13 @@ usethis::use_data(
   glottolog_trees_v4.2, 
   glottolog_trees_v4.3, 
   glottolog_trees_v4.4, 
+  glottolog_trees_v4.5, 
   glottolog_geography_v4.0,
   glottolog_geography_v4.1,
   glottolog_geography_v4.2,
   glottolog_geography_v4.3,
-  glottolog_geography_v4.4
+  glottolog_geography_v4.4,
+  glottolog_geography_v4.5
 )
 
 
@@ -76,18 +81,21 @@ phy4.1 <- glottolog_trees_v4.1
 phy4.2 <- glottolog_trees_v4.2
 phy4.3 <- glottolog_trees_v4.3
 phy4.4 <- glottolog_trees_v4.4
+phy4.5 <- glottolog_trees_v4.5
 
 geo4.0 <- glottolog_geography_v4.0
 geo4.1 <- glottolog_geography_v4.1
 geo4.2 <- glottolog_geography_v4.2
 geo4.3 <- glottolog_geography_v4.3
 geo4.4 <- glottolog_geography_v4.4
+geo4.5 <- glottolog_geography_v4.5
 
 root_labels4.0 <- lapply(phy4.0, function(p) p$node.label[1]) %>% unlist()
 root_labels4.1 <- lapply(phy4.1, function(p) p$node.label[1]) %>% unlist()
 root_labels4.2 <- lapply(phy4.2, function(p) p$node.label[1]) %>% unlist()
 root_labels4.3 <- lapply(phy4.3, function(p) p$node.label[1]) %>% unlist()
 root_labels4.4 <- lapply(phy4.4, function(p) p$node.label[1]) %>% unlist()
+root_labels4.5 <- lapply(phy4.5, function(p) p$node.label[1]) %>% unlist()
 
 
 ##### Tabulate the labels of families' trees
@@ -106,6 +114,7 @@ glottolog_family_labels_v4.1 <- tabulate_fam_labs(phy4.1, root_labels4.1)
 glottolog_family_labels_v4.2 <- tabulate_fam_labs(phy4.2, root_labels4.2)
 glottolog_family_labels_v4.3 <- tabulate_fam_labs(phy4.3, root_labels4.3)
 glottolog_family_labels_v4.4 <- tabulate_fam_labs(phy4.4, root_labels4.4)
+glottolog_family_labels_v4.5 <- tabulate_fam_labs(phy4.5, root_labels4.5)
 
 
 #### Tabulate gottolog tree vertices and geo data
@@ -161,6 +170,8 @@ glottolog_phylo_geo_v4.3 <-
   tabulate_phylo_geo(phy4.3, geo4.3, glottolog_family_labels_v4.3)
 glottolog_phylo_geo_v4.4 <-
   tabulate_phylo_geo(phy4.4, geo4.4, glottolog_family_labels_v4.4)
+glottolog_phylo_geo_v4.5 <-
+  tabulate_phylo_geo(phy4.5, geo4.5, glottolog_family_labels_v4.5)
 
 
 # Tabulate glottolog families and macroareas
@@ -186,6 +197,7 @@ glottolog_family_geo_v4.1 <- tabulate_family_geo(glottolog_phylo_geo_v4.1)
 glottolog_family_geo_v4.2 <- tabulate_family_geo(glottolog_phylo_geo_v4.2)
 glottolog_family_geo_v4.3 <- tabulate_family_geo(glottolog_phylo_geo_v4.3)
 glottolog_family_geo_v4.4 <- tabulate_family_geo(glottolog_phylo_geo_v4.4)
+glottolog_family_geo_v4.5 <- tabulate_family_geo(glottolog_phylo_geo_v4.5)
 
 
 # Add the new internal datasets
@@ -199,16 +211,19 @@ usethis::use_data(
   glottolog_family_labels_v4.2,
   glottolog_family_labels_v4.3,
   glottolog_family_labels_v4.4,
+  glottolog_family_labels_v4.5,
   
   glottolog_phylo_geo_v4.0,
   glottolog_phylo_geo_v4.1,
   glottolog_phylo_geo_v4.2,
   glottolog_phylo_geo_v4.3,
   glottolog_phylo_geo_v4.4,
+  glottolog_phylo_geo_v4.5,
   
   glottolog_family_geo_v4.0,
   glottolog_family_geo_v4.1,
   glottolog_family_geo_v4.2,
   glottolog_family_geo_v4.3,
-  glottolog_family_geo_v4.4
+  glottolog_family_geo_v4.4,
+  glottolog_family_geo_v4.5
 )
