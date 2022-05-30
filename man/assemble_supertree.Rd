@@ -13,8 +13,8 @@ Alternatively, setting \code{macro_groups} to \code{NULL} causes the tree
 to be assembled without groups.}
 
 \item{glottolog_version}{A character string, specifying which glottolog
-version to use. Currently available options are \code{'4.3'} and
-\code{'4.4'}. If no value is specified then the newest available version is
+version to use. Currently available options are \code{'4.0'} through to
+\code{'4.6'}. If no value is specified then the newest available version is
 used.}
 }
 \description{

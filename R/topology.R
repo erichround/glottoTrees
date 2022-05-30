@@ -40,19 +40,13 @@ get_glottolog_trees = function(
   }
   
   # Choose appropriate dataset
-  if (glottolog_version == "4.0") {
-    phy <- glottolog_trees_v4.0
-  } else if (glottolog_version == "4.1") {
-    phy <- glottolog_trees_v4.1
-  } else if (glottolog_version == "4.2") {
-    phy <- glottolog_trees_v4.2
-  } else if (glottolog_version == "4.3") {
-    phy <- glottolog_trees_v4.3
-  } else if (glottolog_version == "4.4") {
-    phy <- glottolog_trees_v4.4
-  } else if (glottolog_version == "4.5") {
-    phy <- glottolog_trees_v4.5
-  }
+  if (glottolog_version == "4.0") { phy <- glottolog_trees_v4.0 }
+  else if (glottolog_version == "4.1") { phy <- glottolog_trees_v4.1 }
+  else if (glottolog_version == "4.2") { phy <- glottolog_trees_v4.2 }
+  else if (glottolog_version == "4.3") { phy <- glottolog_trees_v4.3 }
+  else if (glottolog_version == "4.4") { phy <- glottolog_trees_v4.4 }
+  else if (glottolog_version == "4.5") { phy <- glottolog_trees_v4.5 }
+  else if (glottolog_version == "4.6") { phy <- glottolog_trees_v4.6 }
   
   # If family is missing, return the whole dataset
   if (missing(family)) { return(phy) }
