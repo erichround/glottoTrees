@@ -7,13 +7,13 @@
 rescale_branches_exp(phy, length = 1)
 }
 \arguments{
-\item{phy}{A phlyo object, the tree to manipulate.}
+\item{phy}{A phylo object, the tree to manipulate.}
 
 \item{length}{A positive numeric, a multiplier for the exponential branch
 lengths 1/2, 1/4, 1/8...}
 }
 \value{
-A phlyo object, the manipulated tree.
+A phylo object, the manipulated tree.
 }
 \description{
 Sets the deepest branches to length 1/2, the next deepest to 1/4, the next to

@@ -7,7 +7,7 @@
 relabel_with_names(phy, glottolog_version)
 }
 \arguments{
-\item{phy}{A phlyo object, the tree to manipulate.}
+\item{phy}{A phylo object, the tree to manipulate.}
 
 \item{glottolog_version}{A character string, specifying which glottolog
 version to use. Currently available options are \code{'4.0'} through to
@@ -15,7 +15,7 @@ version to use. Currently available options are \code{'4.0'} through to
 used.}
 }
 \value{
-A phlyo object, the manipulated tree.
+A phylo object, the manipulated tree.
 }
 \description{
 Looks up glottolog language names corresponding to glottocodes and replaces

@@ -233,9 +233,9 @@ abridge_labels = function(phy) {
 #' version of glottolog to use for look-up can be controlled with
 #' \code{glottolog_version}.
 #'
-#' @param phy A phlyo object, the tree to manipulate.
+#' @param phy A phylo object, the tree to manipulate.
 #' @inheritParams get_glottolog_languages
-#' @return A phlyo object, the manipulated tree.
+#' @return A phylo object, the manipulated tree.
 #'
 #' @examples
 #'
@@ -537,7 +537,7 @@ apply_duplicate_suffixes = function(
 #' 
 #' Does this by concatenating the \code{tip.label} vector from each tree.
 #' 
-#' @param phy A phlyo or multiPhlyo, containing the tree(s).
+#' @param phy A phylo or multiPhylo, containing the tree(s).
 #' @return A character vector, the tip labels.
 #' @noRd
 .get_tip_labels = function(phy) {
@@ -556,7 +556,7 @@ apply_duplicate_suffixes = function(
 #' 
 #' Does this by concatenating the \code{node.label} vector from each tree.
 #' 
-#' @param phy A phlyo or multiPhlyo, containing the tree(s).
+#' @param phy A phylo or multiPhylo, containing the tree(s).
 #' @return A character vector, the tip labels.
 #' @noRd
 .get_node_labels = function(phy) {

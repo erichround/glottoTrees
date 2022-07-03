@@ -7,12 +7,12 @@
 rescale_branches(phy, length = 1)
 }
 \arguments{
-\item{phy}{A phlyo object, the tree to manipulate.}
+\item{phy}{A phylo object, the tree to manipulate.}
 
 \item{length}{A numeric stating the branch length.}
 }
 \value{
-A phlyo object, the manipulated tree.
+A phylo object, the manipulated tree.
 }
 \description{
 Sets all branch lengths in a tree to the same length.

@@ -7,10 +7,10 @@
 ultrametricize(phy)
 }
 \arguments{
-\item{phy}{A phlyo object, the tree to manipulate.}
+\item{phy}{A phylo object, the tree to manipulate.}
 }
 \value{
-A phlyo object, the manipulated tree.
+A phylo object, the manipulated tree.
 }
 \description{
 Alters branches ending in a tip in such a way that all tips are equidistant

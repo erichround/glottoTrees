@@ -215,7 +215,7 @@
 #' Checks if object phy has is class phylo. If phy is missing tip.label
 #' and/or node.label, then these are added, and the labels are \code{''}.
 #'
-#' @param phy A phlyo object
+#' @param phy A phylo object
 #' @return A list with elements error_msg and warning_msg (which are NA is
 #'   there's no message) and phy, a possibly modified version of phy
 #' @noRd
