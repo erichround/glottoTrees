@@ -53,6 +53,7 @@ newick_v4.3 <- read_newick(version = "4-3")
 newick_v4.4 <- read_newick(version = "4-4")
 newick_v4.5 <- read_newick(version = "4-5")
 newick_v4.6 <- read_newick(version = "4-6")
+newick_v4.7 <- read_newick(version = "4-7")
 
 glottolog_trees_v4.0 <- ape::read.tree(text = newick_v4.0)
 glottolog_trees_v4.1 <- ape::read.tree(text = newick_v4.1)
@@ -61,6 +62,7 @@ glottolog_trees_v4.3 <- ape::read.tree(text = newick_v4.3)
 glottolog_trees_v4.4 <- ape::read.tree(text = newick_v4.4)
 glottolog_trees_v4.5 <- ape::read.tree(text = newick_v4.5)
 glottolog_trees_v4.6 <- ape::read.tree(text = newick_v4.6)
+glottolog_trees_v4.7 <- ape::read.tree(text = newick_v4.7)
 
 glottolog_geography_v4.0 <- read_geo(version = "4-0")
 glottolog_geography_v4.1 <- read_geo(version = "4-1")
@@ -69,6 +71,7 @@ glottolog_geography_v4.3 <- read_geo(version = "4-3")
 glottolog_geography_v4.4 <- read_geo(version = "4-4")
 glottolog_geography_v4.5 <- read_geo(version = "4-5")
 glottolog_geography_v4.6 <- read_geo(version = "4-6")
+glottolog_geography_v4.7 <- read_geo(version = "4-7")
 
 
 # Add the new external datasets 
@@ -83,13 +86,15 @@ usethis::use_data(
   glottolog_trees_v4.4, 
   glottolog_trees_v4.5, 
   glottolog_trees_v4.6, 
+  glottolog_trees_v4.7, 
   glottolog_geography_v4.0,
   glottolog_geography_v4.1,
   glottolog_geography_v4.2,
   glottolog_geography_v4.3,
   glottolog_geography_v4.4,
   glottolog_geography_v4.5,
-  glottolog_geography_v4.6
+  glottolog_geography_v4.6,
+  glottolog_geography_v4.7
 )
 
 
@@ -107,6 +112,7 @@ phy4.3 <- glottolog_trees_v4.3
 phy4.4 <- glottolog_trees_v4.4
 phy4.5 <- glottolog_trees_v4.5
 phy4.6 <- glottolog_trees_v4.6
+phy4.7 <- glottolog_trees_v4.7
 
 geo4.0 <- glottolog_geography_v4.0
 geo4.1 <- glottolog_geography_v4.1
@@ -115,6 +121,7 @@ geo4.3 <- glottolog_geography_v4.3
 geo4.4 <- glottolog_geography_v4.4
 geo4.5 <- glottolog_geography_v4.5
 geo4.6 <- glottolog_geography_v4.6
+geo4.7 <- glottolog_geography_v4.7
 
 root_labels4.0 <- lapply(phy4.0, function(p) p$node.label[1]) %>% unlist()
 root_labels4.1 <- lapply(phy4.1, function(p) p$node.label[1]) %>% unlist()
@@ -123,6 +130,7 @@ root_labels4.3 <- lapply(phy4.3, function(p) p$node.label[1]) %>% unlist()
 root_labels4.4 <- lapply(phy4.4, function(p) p$node.label[1]) %>% unlist()
 root_labels4.5 <- lapply(phy4.5, function(p) p$node.label[1]) %>% unlist()
 root_labels4.6 <- lapply(phy4.6, function(p) p$node.label[1]) %>% unlist()
+root_labels4.7 <- lapply(phy4.7, function(p) p$node.label[1]) %>% unlist()
 
 
 ##### Tabulate the labels of families' trees
@@ -143,6 +151,7 @@ glottolog_family_labels_v4.3 <- tabulate_fam_labs(phy4.3, root_labels4.3)
 glottolog_family_labels_v4.4 <- tabulate_fam_labs(phy4.4, root_labels4.4)
 glottolog_family_labels_v4.5 <- tabulate_fam_labs(phy4.5, root_labels4.5)
 glottolog_family_labels_v4.6 <- tabulate_fam_labs(phy4.6, root_labels4.6)
+glottolog_family_labels_v4.7 <- tabulate_fam_labs(phy4.7, root_labels4.7)
 
 
 #### Tabulate gottolog tree vertices and geo data
@@ -202,6 +211,8 @@ glottolog_phylo_geo_v4.5 <-
   tabulate_phylo_geo(phy4.5, geo4.5, glottolog_family_labels_v4.5)
 glottolog_phylo_geo_v4.6 <-
   tabulate_phylo_geo(phy4.6, geo4.6, glottolog_family_labels_v4.6)
+glottolog_phylo_geo_v4.7 <-
+  tabulate_phylo_geo(phy4.7, geo4.7, glottolog_family_labels_v4.7)
 
 
 # Tabulate glottolog families and macroareas
@@ -229,6 +240,7 @@ glottolog_family_geo_v4.3 <- tabulate_family_geo(glottolog_phylo_geo_v4.3)
 glottolog_family_geo_v4.4 <- tabulate_family_geo(glottolog_phylo_geo_v4.4)
 glottolog_family_geo_v4.5 <- tabulate_family_geo(glottolog_phylo_geo_v4.5)
 glottolog_family_geo_v4.6 <- tabulate_family_geo(glottolog_phylo_geo_v4.6)
+glottolog_family_geo_v4.7 <- tabulate_family_geo(glottolog_phylo_geo_v4.7)
 
 
 # Add the new internal datasets
@@ -244,6 +256,7 @@ usethis::use_data(
   glottolog_family_labels_v4.4,
   glottolog_family_labels_v4.5,
   glottolog_family_labels_v4.6,
+  glottolog_family_labels_v4.7,
   
   glottolog_phylo_geo_v4.0,
   glottolog_phylo_geo_v4.1,
@@ -252,6 +265,7 @@ usethis::use_data(
   glottolog_phylo_geo_v4.4,
   glottolog_phylo_geo_v4.5,
   glottolog_phylo_geo_v4.6,
+  glottolog_phylo_geo_v4.7,
   
   glottolog_family_geo_v4.0,
   glottolog_family_geo_v4.1,
@@ -259,5 +273,6 @@ usethis::use_data(
   glottolog_family_geo_v4.3,
   glottolog_family_geo_v4.4,
   glottolog_family_geo_v4.5,
-  glottolog_family_geo_v4.6
+  glottolog_family_geo_v4.6,
+  glottolog_family_geo_v4.7
 )

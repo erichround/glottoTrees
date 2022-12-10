@@ -1,7 +1,7 @@
 Package: glottoTrees
 Type: Package
 Title: Phylogenetic Trees in Linguistics
-Version: 0.1.0008
+Version: 0.1.0009
 Author: Erich Round
 Maintainer: Erich Round <e.round@uq.edu.au>
 Description: Preparation of phylogenetic trees by adapting resources from glottolog.com.
