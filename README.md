@@ -1,6 +1,6 @@
 # glottoTrees
 
-Preparation of phylogenetic trees by adapting resources from glottolog.com
+Preparation of phylogenetic trees by adapting resources from [glottolog.org](https://glottolog.org)
 
 ## Guides and explanations
 
