@@ -526,10 +526,10 @@ add_tip = function(phy, label, parent_label) {
   # Rebuild the tree
   new_tree <- list(
     edge = e,
+    edge.length = c(phy$edge.length, rep(new_edgelength, n_label)),
     Nnode = phy$Nnode,
     node.label = phy$node.label,
-    tip.label = c(phy$tip.label, label),
-    edge.length = c(phy$edge.length, rep(new_edgelength, n_label))
+    tip.label = c(phy$tip.label, label)
   )
   class(new_tree) <- "phylo"
   
@@ -949,20 +949,30 @@ collapse_node = function(phy, label) {
   }
   
   ## Remappings of vertex indices
-  # Map targets to parents
-  v_remap <- vertices
-  v_remap[target_nodes] <- target_parents
-  # Adjust for removal of targets
-  adjustment <- cumsum(vertices %in% target_nodes)
-  v_remap <- (v_remap - adjustment)[v_remap]
-    
+  
+  # Older, more confusing version
+  # # Map targets to parents
+  # v_remap <- vertices
+  # v_remap[target_nodes] <- target_parents
+  # # Adjust for removal of targets
+  # adjustment <- cumsum(vertices %in% target_nodes)
+  # v_remap <- (v_remap - adjustment)[v_remap]
+
+  # Newer, clearer version
+  # Collapse targets onto their parents
+  v_collapsed <- vertices
+  v_collapsed[target_nodes] <- target_parents
+  # Renumber consecutively starting from 1
+  new_v_set <- unique(v_collapsed)
+  v_remap <- match(v_collapsed, sort(new_v_set))
+  
   # Rebuild the tree
   new_tree <- list(
     edge = matrix(v_remap[e], ncol = 2)[-target_edges, ],
+    edge.length = phy$edge.length[-target_edges],
     Nnode = n_node - n_target,
     node.label = phy$node.label[-(target_nodes - n_tip)],
-    tip.label = phy$tip.label,
-    edge.length = phy$edge.length[-target_edges]
+    tip.label = phy$tip.label
   )
   class(new_tree) <- "phylo"
   .reindex(new_tree)
@@ -1200,10 +1210,15 @@ move_node = function(phy, label, parent_label) {
 
 .reindex = function(phy) {
   
-  # Reorder one way then another, because just applying cladewise reordering
-  # can -- for whatever reason -- sometimes produce no change.
+  # OLD CODE: causes R to crash when using new versions of ape
+  # # Reorder one way then another, because just applying cladewise reordering
+  # # can -- for whatever reason -- sometimes produce no change.
+  # # This ensures edges are in the desired, cladewise order
+  # phy <- phy %>% reorder(order = "pruning") %>% reorder(order = "cladewise")
+  
+
   # This ensures edges are in the desired, cladewise order
-  phy <- phy %>% reorder(order = "pruning") %>% reorder(order = "cladewise")
+  phy <- phy %>% reorder(order = "cladewise")
   
   n_tip <- Ntip(phy)
   n_node <- Nnode(phy)
@@ -1223,10 +1238,10 @@ move_node = function(phy, label, parent_label) {
   # Rebuild the tree
   new_tree <- list(
     edge = matrix(v_remap[e], ncol = 2),
+    edge.length = phy$edge.length,
     Nnode = n_node,
     node.label = phy$node.label[nd_seq - n_tip],
-    tip.label = phy$tip.label[t_seq],
-    edge.length = phy$edge.length
+    tip.label = phy$tip.label[t_seq]
   )
   class(new_tree) <- "phylo"
   new_tree
