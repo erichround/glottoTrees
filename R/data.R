@@ -1,4 +1,4 @@
-#' Trees from glottolog, versions 4.0 - 4.7
+#' Trees from glottolog, versions 4.0 - 4.8
 #'
 #' multiPhylo objects, which provide a representation of the phylogenetic
 #' relationships of the languages in glottolog.
@@ -39,8 +39,11 @@ NULL
 #' @format v4.7: A multiPhylo object of 422 trees
 "glottolog_trees_v4.7"
 
+#' @rdname glottolog_trees
+#' @format v4.8: A multiPhylo object of 422 trees
+"glottolog_trees_v4.8"
 
-#' Geographical data from glottolog, versions 4.0 - 4.7
+#' Geographical data from glottolog, versions 4.0 - 4.8
 #'
 #' Datasets of geographical information about the languages in glottolog.
 #'
@@ -89,3 +92,7 @@ NULL
 #' @rdname glottolog_geography
 #' @format v4.7: A dataframe of 21,746 rows
 "glottolog_geography_v4.7"
+
+#' @rdname glottolog_geography
+#' @format v4.8: A dataframe of 21,957 rows
+"glottolog_geography_v4.8"

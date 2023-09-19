@@ -48,6 +48,7 @@ get_glottolog_trees = function(
   else if (glottolog_version == "4.5") { phy <- glottolog_trees_v4.5 }
   else if (glottolog_version == "4.6") { phy <- glottolog_trees_v4.6 }
   else if (glottolog_version == "4.7") { phy <- glottolog_trees_v4.7 }
+  else if (glottolog_version == "4.8") { phy <- glottolog_trees_v4.8 }
   
   # If family is missing, return the whole dataset
   if (missing(family)) { return(phy) }
