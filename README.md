@@ -12,7 +12,7 @@ For a talk that discusses the scientific issues, see https://youtu.be/yJeQ6AGDLK
 
 ## Issues
 
-To report problems, please use the Issues function on this github page, or email me: e.round@uq.edu.au.
+To report problems, please use the Issues function on this github page, or email me: e.round@surrey.ac.uk.
 
 ## Citation
 
