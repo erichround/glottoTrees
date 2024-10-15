@@ -12,7 +12,8 @@
 \alias{glottolog_trees_v4.6}
 \alias{glottolog_trees_v4.7}
 \alias{glottolog_trees_v4.8}
-\title{Trees from glottolog, versions 4.0 - 4.8}
+\alias{glottolog_trees_v5.0}
+\title{Trees from glottolog, versions 4.0 - 5.0}
 \format{
 v4.0: A multiPhylo object of 421 trees
 
@@ -31,6 +32,8 @@ v4.6: A multiPhylo object of 420 trees
 v4.7: A multiPhylo object of 422 trees
 
 v4.8: A multiPhylo object of 422 trees
+
+v5.0: A multiPhylo object of 423 trees
 }
 \source{
 \url{https://glottolog.org/meta/downloads}
@@ -53,6 +56,8 @@ glottolog_trees_v4.6
 glottolog_trees_v4.7
 
 glottolog_trees_v4.8
+
+glottolog_trees_v5.0
 }
 \description{
 multiPhylo objects, which provide a representation of the phylogenetic

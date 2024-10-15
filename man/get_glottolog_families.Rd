@@ -9,8 +9,8 @@ get_glottolog_families(glottolog_version)
 \arguments{
 \item{glottolog_version}{A character string, specifying which glottolog
 version to use. Currently available options are \code{'4.0'} through to
-\code{'4.8'}. If no value is specified then the newest available version is
-used.}
+\code{'4.8'} and \code{'5.0'}. If no value is specified then the newest
+available version is used.}
 }
 \description{
 Returns a dataframe of metadata on glottolog's language families.
