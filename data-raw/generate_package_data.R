@@ -25,7 +25,9 @@ library(tidyverse)
 # zzz.R
 #   [ ] .onAttach()
 # DESCRIPTION
-#   [ ] update the version number
+#   [ ] version number
+# inst/CITATION
+#   [ ] reference to glottolog
 
 
 #### EXTERNAL DATA
@@ -41,7 +43,10 @@ read_newick = function(version) {
   scan(file = str_c("data-raw/tree_glottolog_newick_", version, ".txt"),
        what = "character", sep = "\n", quiet = TRUE) %>%
     str_replace_all("\\[", "<") %>%
-    str_replace_all("\\]", ">") 
+    str_replace_all("\\]", ">") %>%
+    # New step needed due to the change in behavior of ape::read.tree() as
+    # of ape v4.1
+    str_remove_all("[' ]") 
 }
 
 read_geo = function(version) {
