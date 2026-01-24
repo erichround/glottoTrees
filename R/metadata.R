@@ -10,8 +10,8 @@
 #'
 #' @param glottolog_version A character string, specifying which glottolog
 #'   version to use. Currently available options are \code{'4.0'} through to
-#'   \code{'4.8'} and \code{'5.0'}. If no value is specified then the newest
-#'   available version is used.
+#'   \code{'4.8'} and \code{'5.0'} to \code{'5.2'}. If no value is specified
+#'   then the newest available version is used.
 #' @examples
 #' head(get_glottolog_languages())
 #' head(get_glottolog_languages(glottolog_version = "4.3"))
@@ -130,6 +130,8 @@ get_glottolog_phylo_geo = function(
   else if (glottolog_version == "4.7") { phylo_geo <- glottolog_phylo_geo_v4.7 }
   else if (glottolog_version == "4.8") { phylo_geo <- glottolog_phylo_geo_v4.8 }
   else if (glottolog_version == "5.0") { phylo_geo <- glottolog_phylo_geo_v5.0 }
+  else if (glottolog_version == "5.1") { phylo_geo <- glottolog_phylo_geo_v5.1 }
+  else if (glottolog_version == "5.2") { phylo_geo <- glottolog_phylo_geo_v5.2 }
   
   phylo_geo
 }
@@ -195,7 +197,7 @@ which_tree = function(
 #' @return A character string.
 #' @noRd
 .get_newest_version = function() {
-  "5.0"
+  "5.2"
 }
 
 

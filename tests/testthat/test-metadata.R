@@ -1,5 +1,5 @@
 context("Glottolog metadata")
-library(PhyloWeights)
+library(phyloWeights)
 
 test_that("languages metadata v4.3 has the expected contents", {
   m <- get_glottolog_languages("4.3")
@@ -131,7 +131,7 @@ test_that("the glottolog version parameter is handled correctly", {
                get_glottolog_phylo_geo(4.3))
   expect_equal(which_tree("Tangkic", "4.3"),
                which_tree("Tangkic", 4.3))
-  expect_error(get_glottolog_languages("4.2"))
+  expect_error(get_glottolog_languages("3.8"))
   expect_error(get_glottolog_languages(c("4.3", "4.4")))
 })
 

@@ -1,4 +1,4 @@
-# This script is for updating with version 4.8
+# This script is for updating with version 5.2
 
 # Note: it uses the package functions extract_glottocode() and .name_to_label()
 
@@ -9,10 +9,10 @@ library(tidyverse)
 
 # data.R
 #   [ ] title line "Trees from glottolog, versions 4.0 - 5.X"
-#   [ ] list of abjects in @rdname glottolog_trees (in @format and ",,,")
+#   [ ] list of objects in @rdname glottolog_trees (in @format and ",,,")
 #   [ ] the number of elements in these
 #   [ ] title line "Geographical data from glottolog, versions 4.0 - 5.X"
-#   [ ] list of abjects in @rdname glottolog_geography (in @format and ",,,")
+#   [ ] list of objects in @rdname glottolog_geography (in @format and ",,,")
 #   [ ] the number of elements in these
 # input_checks.R
 #   [ ] .check_glottolog_version()
@@ -27,8 +27,20 @@ library(tidyverse)
 # DESCRIPTION
 #   [ ] version number
 # inst/CITATION
+#   [ ] years and versions in reference to glottolog
 #   [ ] reference to glottolog
+# README.md
+#   [ ] text and bibtex citation
+# generate_package_data.R
+#   [ ] title line "This script is for updating with version 5.X"
+#   [ ] all the lists of objects below
+#   [ ] save changes, reload the package and run the script in this file
 
+# Preform testing, documentation, building of the package and manual
+#   [ ] do Build > Install Package (this will run devtools::document) 
+#   [ ] do Build > Test Package / devtools::test()
+#   [ ] do Build > Install Package
+#   [ ] devtools::build_manual() # Then rename and move into package directory
 
 #### EXTERNAL DATA
 
@@ -65,6 +77,8 @@ newick_v4.6 <- read_newick(version = "4-6")
 newick_v4.7 <- read_newick(version = "4-7")
 newick_v4.8 <- read_newick(version = "4-8")
 newick_v5.0 <- read_newick(version = "5-0")
+newick_v5.1 <- read_newick(version = "5-1")
+newick_v5.2 <- read_newick(version = "5-2")
 
 glottolog_trees_v4.0 <- ape::read.tree(text = newick_v4.0)
 glottolog_trees_v4.1 <- ape::read.tree(text = newick_v4.1)
@@ -76,6 +90,8 @@ glottolog_trees_v4.6 <- ape::read.tree(text = newick_v4.6)
 glottolog_trees_v4.7 <- ape::read.tree(text = newick_v4.7)
 glottolog_trees_v4.8 <- ape::read.tree(text = newick_v4.8)
 glottolog_trees_v5.0 <- ape::read.tree(text = newick_v5.0)
+glottolog_trees_v5.1 <- ape::read.tree(text = newick_v5.1)
+glottolog_trees_v5.2 <- ape::read.tree(text = newick_v5.2)
 
 glottolog_geography_v4.0 <- read_geo(version = "4-0")
 glottolog_geography_v4.1 <- read_geo(version = "4-1")
@@ -87,6 +103,8 @@ glottolog_geography_v4.6 <- read_geo(version = "4-6")
 glottolog_geography_v4.7 <- read_geo(version = "4-7")
 glottolog_geography_v4.8 <- read_geo(version = "4-8")
 glottolog_geography_v5.0 <- read_geo(version = "5-0")
+glottolog_geography_v5.1 <- read_geo(version = "5-1")
+glottolog_geography_v5.2 <- read_geo(version = "5-2")
 
 
 # Add the new external datasets 
@@ -104,6 +122,8 @@ usethis::use_data(
   glottolog_trees_v4.7, 
   glottolog_trees_v4.8, 
   glottolog_trees_v5.0, 
+  glottolog_trees_v5.1, 
+  glottolog_trees_v5.2, 
   glottolog_geography_v4.0,
   glottolog_geography_v4.1,
   glottolog_geography_v4.2,
@@ -113,7 +133,9 @@ usethis::use_data(
   glottolog_geography_v4.6,
   glottolog_geography_v4.7,
   glottolog_geography_v4.8,
-  glottolog_geography_v5.0
+  glottolog_geography_v5.0,
+  glottolog_geography_v5.1,
+  glottolog_geography_v5.2
 )
 
 
@@ -134,6 +156,8 @@ phy4.6 <- glottolog_trees_v4.6
 phy4.7 <- glottolog_trees_v4.7
 phy4.8 <- glottolog_trees_v4.8
 phy5.0 <- glottolog_trees_v5.0
+phy5.1 <- glottolog_trees_v5.1
+phy5.2 <- glottolog_trees_v5.2
 
 geo4.0 <- glottolog_geography_v4.0
 geo4.1 <- glottolog_geography_v4.1
@@ -145,6 +169,8 @@ geo4.6 <- glottolog_geography_v4.6
 geo4.7 <- glottolog_geography_v4.7
 geo4.8 <- glottolog_geography_v4.8
 geo5.0 <- glottolog_geography_v5.0
+geo5.1 <- glottolog_geography_v5.1
+geo5.2 <- glottolog_geography_v5.2
 
 root_labels4.0 <- lapply(phy4.0, function(p) p$node.label[1]) %>% unlist()
 root_labels4.1 <- lapply(phy4.1, function(p) p$node.label[1]) %>% unlist()
@@ -156,6 +182,8 @@ root_labels4.6 <- lapply(phy4.6, function(p) p$node.label[1]) %>% unlist()
 root_labels4.7 <- lapply(phy4.7, function(p) p$node.label[1]) %>% unlist()
 root_labels4.8 <- lapply(phy4.8, function(p) p$node.label[1]) %>% unlist()
 root_labels5.0 <- lapply(phy5.0, function(p) p$node.label[1]) %>% unlist()
+root_labels5.1 <- lapply(phy5.1, function(p) p$node.label[1]) %>% unlist()
+root_labels5.2 <- lapply(phy5.2, function(p) p$node.label[1]) %>% unlist()
 
 
 ##### Tabulate the labels of families' trees
@@ -179,6 +207,8 @@ glottolog_family_labels_v4.6 <- tabulate_fam_labs(phy4.6, root_labels4.6)
 glottolog_family_labels_v4.7 <- tabulate_fam_labs(phy4.7, root_labels4.7)
 glottolog_family_labels_v4.8 <- tabulate_fam_labs(phy4.8, root_labels4.8)
 glottolog_family_labels_v5.0 <- tabulate_fam_labs(phy5.0, root_labels5.0)
+glottolog_family_labels_v5.1 <- tabulate_fam_labs(phy5.1, root_labels5.1)
+glottolog_family_labels_v5.2 <- tabulate_fam_labs(phy5.2, root_labels5.2)
 
 
 #### Tabulate gottolog tree vertices and geo data
@@ -244,6 +274,10 @@ glottolog_phylo_geo_v4.8 <-
   tabulate_phylo_geo(phy4.8, geo4.8, glottolog_family_labels_v4.8)
 glottolog_phylo_geo_v5.0 <-
   tabulate_phylo_geo(phy5.0, geo5.0, glottolog_family_labels_v5.0)
+glottolog_phylo_geo_v5.1 <-
+  tabulate_phylo_geo(phy5.1, geo5.1, glottolog_family_labels_v5.1)
+glottolog_phylo_geo_v5.2 <-
+  tabulate_phylo_geo(phy5.2, geo5.2, glottolog_family_labels_v5.2)
 
 
 # Tabulate glottolog families and macroareas
@@ -274,6 +308,8 @@ glottolog_family_geo_v4.6 <- tabulate_family_geo(glottolog_phylo_geo_v4.6)
 glottolog_family_geo_v4.7 <- tabulate_family_geo(glottolog_phylo_geo_v4.7)
 glottolog_family_geo_v4.8 <- tabulate_family_geo(glottolog_phylo_geo_v4.8)
 glottolog_family_geo_v5.0 <- tabulate_family_geo(glottolog_phylo_geo_v5.0)
+glottolog_family_geo_v5.1 <- tabulate_family_geo(glottolog_phylo_geo_v5.1)
+glottolog_family_geo_v5.2 <- tabulate_family_geo(glottolog_phylo_geo_v5.2)
 
 
 # Add the new internal datasets
@@ -292,6 +328,8 @@ usethis::use_data(
   glottolog_family_labels_v4.7,
   glottolog_family_labels_v4.8,
   glottolog_family_labels_v5.0,
+  glottolog_family_labels_v5.1,
+  glottolog_family_labels_v5.2,
   
   glottolog_phylo_geo_v4.0,
   glottolog_phylo_geo_v4.1,
@@ -303,6 +341,8 @@ usethis::use_data(
   glottolog_phylo_geo_v4.7,
   glottolog_phylo_geo_v4.8,
   glottolog_phylo_geo_v5.0,
+  glottolog_phylo_geo_v5.1,
+  glottolog_phylo_geo_v5.2,
   
   glottolog_family_geo_v4.0,
   glottolog_family_geo_v4.1,
@@ -313,5 +353,7 @@ usethis::use_data(
   glottolog_family_geo_v4.6,
   glottolog_family_geo_v4.7,
   glottolog_family_geo_v4.8,
-  glottolog_family_geo_v5.0
+  glottolog_family_geo_v5.0,
+  glottolog_family_geo_v5.1,
+  glottolog_family_geo_v5.2
 )

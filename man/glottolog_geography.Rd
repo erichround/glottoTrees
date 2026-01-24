@@ -13,7 +13,9 @@
 \alias{glottolog_geography_v4.7}
 \alias{glottolog_geography_v4.8}
 \alias{glottolog_geography_v5.0}
-\title{Geographical data from glottolog, versions 4.0 - 5.0}
+\alias{glottolog_geography_v5.1}
+\alias{glottolog_geography_v5.2}
+\title{Geographical data from glottolog, versions 4.0 - 5.2}
 \format{
 A dataframe:
 \describe{
@@ -45,6 +47,10 @@ v4.7: A dataframe of 21,746 rows
 v4.8: A dataframe of 21,957 rows
 
 v5.0: A dataframe of 22,111 rows
+
+v5.1: A dataframe of 22,159 rows
+
+v5.2: A dataframe of 22,205 rows
 }
 \source{
 \url{https://glottolog.org/meta/downloads}
@@ -69,6 +75,10 @@ glottolog_geography_v4.7
 glottolog_geography_v4.8
 
 glottolog_geography_v5.0
+
+glottolog_geography_v5.1
+
+glottolog_geography_v5.2
 }
 \description{
 Datasets of geographical information about the languages in glottolog.

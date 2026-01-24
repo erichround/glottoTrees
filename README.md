@@ -18,7 +18,7 @@ To report problems, please use the Issues function on this github page, or email
 
 To cite glottoTrees in publications use:
 
-  Round, Erich R. (2021) {glottoTrees}: Phylogenetic trees in Linguistics. R package version 0.1 URL https://github.com/erichround/glottoTrees
+  Round, Erich R. (2026) {glottoTrees}: Phylogenetic trees in Linguistics. R package version 0.1.13 URL https://github.com/erichround/glottoTrees
 
 A BibTeX entry for LaTeX users is
 
@@ -26,8 +26,8 @@ A BibTeX entry for LaTeX users is
   @Manual{glottoTrees,
     title = {{glottoTrees}: Phylogenetic trees in Linguistics.},
     author = {Erich R. Round},
-    year = {2021},
-    note = {R package version 0.1},
+    year = {2026},
+    note = {R package version 0.1.13},
     url = {https://github.com/erichround/glottoTrees},
   }
 ```

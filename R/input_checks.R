@@ -6,15 +6,15 @@
 #' Check the glottolog_version parameter and return informative error messages
 #'
 #' @param glottolog_version An object to be checked. Should be a character
-#'   vector, (or numeric or factor) of length 1, equal to '4.0', '4.1', ... or
-#'   '4.8', '5.0' (or 4.0, 4.1, ... 4.8, 5.0).
+#'   vector, (or numeric or factor) of length 1, equal to '4.0', '4.1', ...
+#'   '4.8', '5.0', '5.1', or '5.2' (or 4.0, 4.1, ... 4.8, 5.0, 5.1, 5.2).
 #' @return An error message, or else NA.
 #' @noRd
 .check_glottolog_version = function(glottolog_version) {
   
   available_versions <- 
     c("4.0", "4.1", "4.2", "4.3", "4.4", "4.5", "4.6", "4.7", "4.8", 
-      "5.0")
+      "5.0", "5.1", "5.2")
   
   if (!is.character(glottolog_version)) {
     if (is.numeric(glottolog_version) | is.factor(glottolog_version)) {
